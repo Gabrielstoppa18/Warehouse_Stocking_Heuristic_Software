@@ -1,0 +1,6 @@
+4
+id,family,department,category,subcategory,name
+1,Drink,Alcoholic Beverages,Beer and Wine,Beer,Good Imported Beer
+2,Drink,Alcoholic Beverages,Beer and Wine,Beer,Good Light Beer
+3,Drink,Alcoholic Beverages,Beer and Wine,Beer,Pearl Imported Beer
+4,Drink,Alcoholic Beverages,Beer and Wine,Beer,Pearl Light Beer
