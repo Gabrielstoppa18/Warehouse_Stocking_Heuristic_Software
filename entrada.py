@@ -133,8 +133,11 @@ class Armazem:
             self.ord[i].totprod = int(inf[0])
             for j in range(0,self.ord[i].totprod*2,2):
                 self.ord[i].lprod.append(int(inf[1+j]))
+            for j in range(1,self.ord[i].totprod*2+1,2):
+                self.ord[i].qtprod.append(int(inf[1+j]))
+            print(self.ord[i].qtprod)    
             b+=1
-
+        
     def imprimir(self):
         with open('entrada.txt','w')as entrada:
             entrada.write("Entrada: "+str(self.nex)+" "+ str(self.ney)+" "+ str(self.nez)+"\n")
@@ -192,5 +195,6 @@ class Ordem:
     def __init__(self):
         self.totprod=0
         self.lprod = []
+        self.qtprod = []
         self.a = [0,0]
         self.posic = []
