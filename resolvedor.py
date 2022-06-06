@@ -27,6 +27,7 @@ class SA():
         self.xxb = sys.maxsize
         self.xy = [0,0]
         self.order=[]
+        self.maxcar=2
         
     def solInicial(self):
         # self.SOL=SOL 
@@ -100,9 +101,10 @@ class SA():
          
         for l in range(self.arm.totalord):
             objt=0.0
-            
+            capcar=0
             j=order[l].lprod[0]
             a,b=SOL[j-1]
+            capcar+=1
             objt += self.arm.dist[0][a]
             for i in range(len(order[l].lprod)-1):
                 j=order[l].lprod[i]
@@ -110,13 +112,22 @@ class SA():
 
                 k=order[l].lprod[i+1]
                 c,d=SOL[k-1]
-                objt += self.arm.dist[a][c]
+                if capcar==self.maxcar:
+                   objt += self.arm.dist[a][0]
+                   objt += self.arm.dist[0][c]
+                   capcar=0
+                   
+                else:
+                    capcar+=1 
+                    objt += self.arm.dist[a][c]
 
             i=len(order[l].lprod)
             j=order[l].lprod[i-1]
             a,b=SOL[j-1]
-
+            
+            
             objt += self.arm.dist[a][0]
+            capcar=0
             objetivo.append(objt)
         '''
         for a in range(self.arm.totalpro):
