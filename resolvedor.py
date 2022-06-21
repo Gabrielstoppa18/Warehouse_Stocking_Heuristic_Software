@@ -125,9 +125,9 @@ class SA():
             j=order[l].lprod[i-1]
             a,b=SOL[j-1]
             
-            
             objt += self.arm.dist[a][0]
-            capcar=0
+
+            
             objetivo.append(objt)
         '''
         for a in range(self.arm.totalpro):
@@ -363,3 +363,12 @@ class SA():
         aux = order[i].lprod[ii]
         order[i].lprod.pop(order[i].lprod[ii])
         order[i].lprod.insert(order[i].lprod[jj],aux)
+    class car:
+        def __init__(self):
+            capcesta=3
+            numcestas=5
+            cestas=[]
+            carrinho=[]
+            for i in range(numcestas):
+                carrinho.append(cestas)
+
