@@ -11,6 +11,7 @@ class Pos():
         self.quantidade = 0       
 class SA():
     def __init__(self):
+        self.car=self.Carro()
         self.x=0
         self.y=0
         self.x0=0
@@ -28,15 +29,39 @@ class SA():
         self.xy = [0,0]
         self.order=[]
         self.maxcar=2
-        
-    def solInicial(self):
-        # self.SOL=SOL 
+    class Carro:
+        def __init__(self):
+            self.capcesta=2
+            self.numcestas=5
+            self.cestas=[]
+            self.carrinho=[]
+            
+    def arquivos(self):
+        file=open('entrada.txt','r')
+        arq = file.read().splitlines()
+        try:
+            filepath1=arq[0]
+            filepath2=arq[1]
+            filepath3=arq[2]
 
+            file1 = open(filepath1, 'r')
+            arq1 = file1.read().splitlines()
+
+            file2 = open(filepath2, 'r')
+            arq2 = file2.read().splitlines()
+
+            file3 = open(filepath3, 'r')
+            arq3 = file3.read().splitlines()
+
+            self.arm.leitura(arq1,arq2,arq3)
+        except:
+            self.arm.openFile()
+
+    def solInicial(self):
+        for i in range(self.car.numcestas):
+                self.car.carrinho.append(self.car.cestas)
         self.SOL=[]
-        '''
-        for a in range(self.arm.totalLocations):
-            self.SOL.append(self.cel)
-        '''
+
         self.randomid1 = []
         for j in range(len(self.arm.loc)):
             for k in range(len(self.arm.loc[j])):
@@ -44,116 +69,55 @@ class SA():
         np.random.shuffle(self.randomid1)
         for i in range(self.arm.totalpro):
             self.SOL.append(self.randomid1[i])
-        self.order=copy.deepcopy(self.arm.ord)
-        '''
-        #self.randomid = np.arange(self.arm.totalpro)
-        np.random.shuffle(self.randomid1)
-        self.randomid2 = []
-        for i in range((self.arm.totalLocations)-self.arm.totalpro):
-            self.randomid2.append(0)
-        self.arr=self.randomid1+self.randomid2
-        self.randomid=np.array(self.arr)
-        #self.randomid=self.randomid.reshape(self.arm.numAisles,self.arm.numLocPerAisleSide*2*self.arm.numShelves)
-        
-        self.SOL=copy.deepcopy(self.randomid)
-             
+        self.order=copy.deepcopy(self.arm.ordens)
        
-        self.posics=[]
-        self.nodes=[]
-        #inicialisa posics
-        for i in range(self.arm.totalLocations):
-            self.posics.append(0)
-        #inicialisa nodes
-        for i in range(self.arm.totalpro):
-            self.nodes.append(0)
-        #posics posicao+1: celula/ valor: no
-        for i in range(self.arm.totalLocations):
-            for j in range(len(self.arm.loc)):
-                for k in range(len(self.arm.loc[j])):
-                    if i+1==self.arm.loc[j][k]:
-                        self.posics[i]=j+1
-        #print(self.posics)
-        for i in range(len(self.posics)):
-            if i ==self.arm.totalpro:
-                break
-            self.nodes[self.SOL[i]-1]=self.posics[i]
-        print(self.nodes)
-        '''
     def imprimeSol(self,SOL,order):
-        # self.SOL = SOL
+
 
         print('Layout solução: ',SOL)
-        for l in range(self.arm.totalord):
-            print('Ordem: ',l+1)
-            print('Lista de produtos: ',order[l].lprod)
-    # def iniciaPosic(self):
-    #     for cont in range(self.arm.totalord):
-    #         self.arm.ord[cont].posic.append(self.arm.ord[cont].a)
-
+        print('Lista de produtos: ',order)
     def imprimeOrd(self,order):
-        for l in range(self.arm.totalord):
-            print('Ordem: ',l+1)
-            print('Lista de produtos: ',order[l].lprod)
+        print('Lista de produtos: ',order)
 
     def objetivo(self,SOL,order):
         # self.SOL = SOL
         objetivo=[]
-         
-        for l in range(self.arm.totalord):
-            objt=0.0
-            capcar=0
-            j=order[l].lprod[0]
-            a,b=SOL[j-1]
-            capcar+=1
-            objt += self.arm.dist[0][a]
-            for i in range(len(order[l].lprod)-1):
-                j=order[l].lprod[i]
-                a,b=self.SOL[j-1]
-
-                k=order[l].lprod[i+1]
-                c,d=SOL[k-1]
-                if capcar==self.maxcar:
-                   objt += self.arm.dist[a][0]
-                   objt += self.arm.dist[0][c]
-                   capcar=0
-                   
-                else:
-                    capcar+=1 
-                    objt += self.arm.dist[a][c]
-
-            i=len(order[l].lprod)
-            j=order[l].lprod[i-1]
-            a,b=SOL[j-1]
-            
-            objt += self.arm.dist[a][0]
-
-            
-            objetivo.append(objt)
-        '''
-        for a in range(self.arm.totalpro):
-            for j in range(len(self.nodes)):
-                if a ==
-        for l in range(len(order)):
-            posics.append(list_)
-            for i in range(len(order[l].lprod)):
-                for j in range(len(self.nodes)):
-                    if order[l].lprod[i]==j+1:
-                        posics[l].append(self.nodes[j])
-                
-        print(posics) 
+        objt=0.0
+        
+        #Coleta primeiro produto
+        i,j=order[0]
+        a,b=SOL[i-1]
 
         
-        objt= 0.0
-        for j in range(len(posics)):
-            for i in range(len(posics[j])):
-                if i == 0: #primeiro
-                    objt += self.arm.dist[0][posics[j][i]]
-                elif i + 1 == len(posics): #ultimo produto
-                        objt += self.arm.dist[posics[j][i]][0]
-                else: #produto intermediario na lista
-                        objt += self.arm.dist[posics[j][i]][posics[j][i+1]]
-            objetivo.append(objt)
-        '''   
+        self.car.carrinho[j].append(i)
+        
+        objt += self.arm.dist[0][a]
+
+        for l in range(1,len(order)-1):
+            o,p=order[l]
+            a,b=self.SOL[o-1]
+
+            k,s=order[l+1]
+            c,d=SOL[k-1]
+            if len(self.car.carrinho[p])==self.car.capcesta:
+                objt += self.arm.dist[a][0]
+                objt += self.arm.dist[0][c]
+                self.car.carrinho[p]=[]
+                   
+            else:
+                self.car.carrinho[p].append(i) 
+                objt += self.arm.dist[a][c]
+
+        #Coleta ultimo produto
+        i=len(order)-1
+        g,h=order[i]
+        a,b=SOL[h-1]
+            
+        objt += self.arm.dist[a][0]
+
+            
+        objetivo.append(objt)
+
         return sum(objetivo)
 
     
@@ -164,7 +128,7 @@ class SA():
         self.it = 5
         self.Tf = 1
         self.T0 = 5
-        
+        self.arquivos()
         self.solInicial()
         self.imprimeSol(self.SOL,self.order)
         valor=self.objetivo(self.SOL,self.order)
@@ -330,45 +294,29 @@ class SA():
         return xxb,xb
     def N_1(self,order):
 
-        i = np.random.randint(0,self.arm.totalord-1)
-        #j = np.random.randint(0,self.arm.totalord-1)
-        while len(order[i].lprod) <=1:
-            i = np.random.randint(0,self.arm.totalord-1)
-        ii = np.random.randint(0,len(order[i].lprod)-1)
-        jj = np.random.randint(0,len(order[i].lprod)-1)
+        ii = np.random.randint(0,len(order)-1)
+        jj = np.random.randint(0,len(order)-1)
         cont=5
         while ii==jj and cont >=0:
-            ii = np.random.randint(0,len(order[i].lprod)-1)
-            jj = np.random.randint(0,len(order[i].lprod)-1)
+            ii = np.random.randint(0,len(order)-1)
+            jj = np.random.randint(0,len(order)-1)
             cont=cont-1
-        print(i,ii,jj)
-        aux = order[i].lprod[ii]
-        order[i].lprod[ii]= order[i].lprod[jj]
-        order[i].lprod[jj]= aux
+        print(ii,jj)
+        aux = order[ii]
+        order[ii]= order[jj]
+        order[jj]= aux
 
     def N_2(self,order):
 
-        i = np.random.randint(0,self.arm.totalord-1)
-        #j = np.random.randint(0,self.arm.totalord-1)
-        while len(order[i].lprod) <=1:
-            i = np.random.randint(0,self.arm.totalord-1)
-        ii = np.random.randint(0,len(order[i].lprod)-1)
-        jj = np.random.randint(0,len(order[i].lprod)-1)
+        ii = np.random.randint(0,len(order)-1)
+        jj = np.random.randint(0,len(order)-1)
         cont=5
         while ii==jj and cont >=0:
-            ii = np.random.randint(0,len(order[i].lprod)-1)
-            jj = np.random.randint(0,len(order[i].lprod)-1)
+            ii = np.random.randint(0,len(order)-1)
+            jj = np.random.randint(0,len(order)-1)
             cont=cont-1
-        print(i,ii,jj)
-        aux = order[i].lprod[ii]
-        order[i].lprod.pop(order[i].lprod[ii])
-        order[i].lprod.insert(order[i].lprod[jj],aux)
-    class car:
-        def __init__(self):
-            capcesta=3
-            numcestas=5
-            cestas=[]
-            carrinho=[]
-            for i in range(numcestas):
-                carrinho.append(cestas)
-
+        print(ii,jj)
+        aux = order[ii]
+        order.pop(order[ii])
+        order.insert(order[jj],aux)
+    

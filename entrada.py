@@ -71,7 +71,6 @@ class Armazem:
 
         for i in range(self.totalvertices):
             self.A.add_node(i,pos=(self.vertPos[i][0],self.vertPos[i][1]))
-        #print(self.numProdVertices)
         
         #a=2194
         a=1632
@@ -79,39 +78,8 @@ class Armazem:
             k = arq1[i].split()
             for j in range(0,int(k[1])+1,2):
                 self.A.add_edge(int(k[0]),int(k[j+2]),weight=float(k[j+3]))
-        '''    
-        pos={}
-        for i in range(self.numProdVertices+1):
-            x=self.vertPos[i][0]
-            y=self.vertPos[i][1]
-            pos.update({i:(x,y+50)})
-        
-        options = {
-        "font_size": 10,
-        "node_size": 300,
-        "node_color": "white",
-        "edgecolors": "black",
-        "linewidths": 1,
-        "width": 1,
-        }
-        nx.draw_networkx(self.A, pos, **options)
 
-        # Set margins for the axes so that nodes aren't clipped
-        ax = plt.gca()
-        ax.margins(0.20,0.2)
-        plt.axis("off")
-        plt.show()
-        
-        labels = nx.get_edge_attributes(self.A,'weight')
-        pos=nx.get_node_attributes(self.A,'pos')
-        nx.draw_networkx_edge_labels(self.A,pos,edge_labels=labels)
-        ax = plt.gca()
-        ax.margins(0.20,0.2)
-        plt.axis("off")
-        plt.show()
-        #'''
 
-        #print(nx.shortest_path_length(self.A, source=0, target=0))
         self.dist=dict(nx.all_pairs_dijkstra_path_length(self.A))     
 
         self.totalpro= int(arq2[0])
@@ -161,35 +129,27 @@ class Armazem:
             entrada.write("Total de ordens:"+str(self.totalord)+"\n")
             for i in range(self.totalord):
                 entrada.write(str(self.ord[i].totprod)+" "+str(self.ord[i].lprod)+"\n")
-        print(self.nex,self.ney)
-        print(self.nsx,self.nsy)
-        print(self.prt)
-        print(self.cel)
-        for i in range(self.prt):
-            for j in range(self.cel):
-                print(self.pa[i].pra[j].idcel,self.pa[i].pra[j].capcel,self.pa[i].pra[j].xcel,self.pa[i].pra[j].ycel)
-        print(self.totalpro)
-        for i in range(self.totalpro):
-            print(self.po[i].idprod,self.po[i].qtdprod)
-        print(self.totalord)
-        for i in range(self.totalord):
-            print(self.ord[i].totprod,self.ord[i].lprod)
 
     def openFile(self):
-        filepath =filedialog.askopenfilename(initialdir="Desktop", title = "Open Layout", filetypes=(("Text files","*.txt"),("All files","*.*")))
-        file = open(filepath, 'r')
-        arq = file.read().splitlines()
-        print("Arquivo lido")
+        with open('entrada.txt','w')as entrada:
+           
+            filepath =filedialog.askopenfilename(initialdir="Desktop", title = "Open Layout", filetypes=(("Text files","*.txt"),("All files","*.*")))
+            entrada.write(filepath+"\n")
+            file = open(filepath, 'r')
+            arq = file.read().splitlines()
+            print("Arquivo lido")
 
-        filepath2 =filedialog.askopenfilename(initialdir="Desktop", title = "Open Products", filetypes=(("Text files","*.txt"),("All files","*.*")))
-        file2 = open(filepath2, 'r')
-        arq2 = file2.read().splitlines()
-        print("Arquivo lido")
+            filepath2 =filedialog.askopenfilename(initialdir="Desktop", title = "Open Products", filetypes=(("Text files","*.txt"),("All files","*.*")))
+            entrada.write(filepath2+"\n")
+            file2 = open(filepath2, 'r')
+            arq2 = file2.read().splitlines()
+            print("Arquivo lido")
 
-        filepath3 =filedialog.askopenfilename(initialdir="Desktop", title = "Open Order", filetypes=(("Text files","*.txt"),("All files","*.*")))
-        file3 = open(filepath3, 'r')
-        arq3 = file3.read().splitlines()
-        print("Arquivo lido")
+            filepath3 =filedialog.askopenfilename(initialdir="Desktop", title = "Open Order", filetypes=(("Text files","*.txt"),("All files","*.*")))
+            entrada.write(filepath3+"\n")
+            file3 = open(filepath3, 'r')
+            arq3 = file3.read().splitlines()
+            print("Arquivo lido")
 
         self.leitura(arq,arq2,arq3)
    
