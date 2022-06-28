@@ -4,6 +4,10 @@ import math
 import numpy as np
 import copy
 import sys
+from pickle import LIST
+from pandas import DataFrame as pd
+from pandas import ExcelWriter as ex
+
 
 class Pos():
     def __init__(self):
@@ -80,6 +84,10 @@ class SA():
         print('Lista de produtos: ',order)
 
     def objetivo(self,SOL,order):
+
+        #order: (produto,ordem)
+        #SOL: {Produto: (nó,prateleira)}s
+
         # self.SOL = SOL
         objetivo=[]
         objt=0.0
@@ -88,12 +96,10 @@ class SA():
         i,j=order[0]
         a,b=SOL[i-1]
 
-        
-        self.car.carrinho[j].append(i)
-        
         objt += self.arm.dist[0][a]
-
-        for l in range(1,len(order)-1):
+        self.car.carrinho[j].append(i)
+    
+        for l in range(0,len(order)-1):
             o,p=order[l]
             a,b=self.SOL[o-1]
 
@@ -101,14 +107,15 @@ class SA():
             c,d=SOL[k-1]
             if len(self.car.carrinho[p])==self.car.capcesta:
                 objt += self.arm.dist[a][0]
-                objt += self.arm.dist[0][c]
                 self.car.carrinho[p]=[]
-                   
+                objt += self.arm.dist[0][c]
+                
+                self.car.carrinho[s].append(c)  
             else:
-                self.car.carrinho[p].append(i) 
+                self.car.carrinho[s].append(c) 
                 objt += self.arm.dist[a][c]
-
-        #Coleta ultimo produto
+            
+        #Retorna para a entrada
         i=len(order)-1
         g,h=order[i]
         a,b=SOL[h-1]
@@ -132,7 +139,7 @@ class SA():
         self.solInicial()
         self.imprimeSol(self.SOL,self.order)
         valor=self.objetivo(self.SOL,self.order)
-        print("Custos:", valor)
+        print("Custo inicial:", valor)
         
         self.Xb = copy.deepcopy(self.SOL)
         self.orderB=copy.deepcopy(self.order)
@@ -182,7 +189,7 @@ class SA():
         print("-Solução Final do Problema:")
         self.imprimeSol(self.Xb,self.orderB)
         print("-Custo Total da solução:",self.xxb)
-        self.datatxt(self.xxb,self.Xb,self.orderB)
+        #self.datatxt(self.xxb,self.Xb,self.orderB)
         return self.xxb
 
     def N1(self, SOL):
@@ -321,8 +328,17 @@ class SA():
         order.pop(order[ii])
         order.insert(order[jj],aux)
     
-    def datatxt(self,cost,layout,ordens):
-        with open('results.txt','w')as results:
-            results.write(str(cost)+"\n")
-            results.write(str(layout)+"\n")
-            results.write(str(ordens)+"\n")
+    def save_xls(self):
+        df1 = pd({'Collect Orders': self.orderB})
+        df2 = pd({'Warehouse': self.Xb})
+
+        # Usando o ExcelWriter, cria um doc .xlsx, usando engine='xlsxwriter'
+        writer = ex('Solution.xlsx', engine='xlsxwriter')
+
+        # Armazena cada df em uma planilha diferente do mesmo arquivo
+        df1.to_excel(writer, sheet_name='Collect Orders',index=False)
+        df2.to_excel(writer, sheet_name='Layout Warehouse',index=False)
+
+        # Fecha o ExcelWriter e gera o arquivo .xlsx
+        writer.save()
+        print("Solucao salva!")
