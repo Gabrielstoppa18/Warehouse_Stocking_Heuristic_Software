@@ -142,7 +142,7 @@ class SA():
 
         while self.T >= self.Tf:
             for i in range(self.it):
-                print('-----------------ITERAÇÃO------------------')
+                #print('-----------------ITERAÇÃO------------------')
                 xx,ord = self.SA2(self.SOL,self.order)
                 Y = copy.deepcopy(self.SOL)
                 
@@ -182,6 +182,7 @@ class SA():
         print("-Solução Final do Problema:")
         self.imprimeSol(self.Xb,self.orderB)
         print("-Custo Total da solução:",self.xxb)
+        self.datatxt(self.xxb,self.Xb,self.orderB)
         return self.xxb
 
     def N1(self, SOL):
@@ -264,7 +265,7 @@ class SA():
                    
                 
                 yy = self.objetivo(arm,y)
-                print('yy: ',yy)
+                #print('yy: ',yy)
                 delta = yy-xx
                 if delta <= 0:
                     ord= copy.deepcopy(y)
@@ -288,8 +289,8 @@ class SA():
         
         '''
         
-        self.imprimeSol(arm,xb)
-        print("-Custo solução SA2:",xxb)
+        #self.imprimeSol(arm,xb)
+        #print("-Custo solução SA2:",xxb)
         
         return xxb,xb
     def N_1(self,order):
@@ -301,7 +302,7 @@ class SA():
             ii = np.random.randint(0,len(order)-1)
             jj = np.random.randint(0,len(order)-1)
             cont=cont-1
-        print(ii,jj)
+        #print(ii,jj)
         aux = order[ii]
         order[ii]= order[jj]
         order[jj]= aux
@@ -315,8 +316,13 @@ class SA():
             ii = np.random.randint(0,len(order)-1)
             jj = np.random.randint(0,len(order)-1)
             cont=cont-1
-        print(ii,jj)
+        #print(ii,jj)
         aux = order[ii]
         order.pop(order[ii])
         order.insert(order[jj],aux)
     
+    def datatxt(self,cost,layout,ordens):
+        with open('results.txt','w')as results:
+            results.write(str(cost)+"\n")
+            results.write(str(layout)+"\n")
+            results.write(str(ordens)+"\n")
