@@ -20,6 +20,8 @@ class Armazem:
         self.numProdVertices = 0
         self.totalpro=0
         self.totalord=0
+        self.ordens=[]
+        self.qtprod=[]
         self.vertPos= [(0,0)]
         self.po=[Produto()]
         self.ord=[Ordem()]
@@ -132,12 +134,16 @@ class Armazem:
             inf = arq3[b].split()
             self.ord[i].totprod = int(inf[0])
             for j in range(0,self.ord[i].totprod*2,2):
+                tupla=(int(inf[1+j]),i)
+                self.ordens.append(tupla)
                 self.ord[i].lprod.append(int(inf[1+j]))
             for j in range(1,self.ord[i].totprod*2+1,2):
+                tupla=(int(inf[1+j]),i)
+                self.qtprod.append(tupla)
                 self.ord[i].qtprod.append(int(inf[1+j]))
-            print(self.ord[i].qtprod)    
+            
             b+=1
-        
+        print(self.qtprod, self.ordens)    
     def imprimir(self):
         with open('entrada.txt','w')as entrada:
             entrada.write("Entrada: "+str(self.nex)+" "+ str(self.ney)+" "+ str(self.nez)+"\n")
