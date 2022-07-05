@@ -4,6 +4,10 @@ import math
 import numpy as np
 import copy
 import sys
+from pickle import LIST
+from pandas import DataFrame as pd
+from pandas import ExcelWriter as ex
+
 
 class Pos():
     def __init__(self):
@@ -33,6 +37,7 @@ class SA():
         def __init__(self):
             self.capcesta=2
             self.numcestas=5
+            self.captotal=self.capcesta*self.numcestas
             self.cestas=[]
             self.carrinho=[]
             
@@ -80,35 +85,54 @@ class SA():
         print('Lista de produtos: ',order)
 
     def objetivo(self,SOL,order):
+
+        #order: (produto,ordem)
+        #SOL: {Produto: (nó,prateleira)}s
+
         # self.SOL = SOL
         objetivo=[]
         objt=0.0
         
         #Coleta primeiro produto
+        collected=0
         i,j=order[0]
         a,b=SOL[i-1]
-
-        
-        self.car.carrinho[j].append(i)
-        
+        capcar=0
         objt += self.arm.dist[0][a]
+        self.car.carrinho[j].append(i)
+        order[0]=(i,j,1)
+        capcar+=1
+        collected+=1
+        while collected !=len(order):
+            for l in range(0,len(order)-1):
+                
+                o,p=order[l]
+                a,b=self.SOL[o-1]
 
-        for l in range(1,len(order)-1):
-            o,p=order[l]
-            a,b=self.SOL[o-1]
-
-            k,s=order[l+1]
-            c,d=SOL[k-1]
-            if len(self.car.carrinho[p])==self.car.capcesta:
-                objt += self.arm.dist[a][0]
-                objt += self.arm.dist[0][c]
-                self.car.carrinho[p]=[]
-                   
-            else:
-                self.car.carrinho[p].append(i) 
-                objt += self.arm.dist[a][c]
-
-        #Coleta ultimo produto
+                k,s,t=order[l+1]
+                c,d=SOL[k-1]
+                if t==1:
+                    continue
+                else:
+                    if capcar ==self.car.captotal:
+                        objt += self.arm.dist[a][0]
+                        self.car.carrinho[p]=[]
+                        objt += self.arm.dist[0][c]
+                        self.car.carrinho[s].append(c)
+                        capcar+=1
+                        collected+=1
+                        order[l+1]=(k,s,1)
+                    else:
+                        if len(self.car.carrinho[p])==self.car.capcesta:
+                            continue  
+                        else:
+                            self.car.carrinho[s].append(c) 
+                            objt += self.arm.dist[a][c]
+                            capcar+=1
+                            collected+=1
+                            order[l+1]=(k,s,1)
+            
+        #Retorna para a entrada
         i=len(order)-1
         g,h=order[i]
         a,b=SOL[h-1]
@@ -132,7 +156,7 @@ class SA():
         self.solInicial()
         self.imprimeSol(self.SOL,self.order)
         valor=self.objetivo(self.SOL,self.order)
-        print("Custos:", valor)
+        print("Custo inicial:", valor)
         
         self.Xb = copy.deepcopy(self.SOL)
         self.orderB=copy.deepcopy(self.order)
@@ -182,7 +206,7 @@ class SA():
         print("-Solução Final do Problema:")
         self.imprimeSol(self.Xb,self.orderB)
         print("-Custo Total da solução:",self.xxb)
-        self.datatxt(self.xxb,self.Xb,self.orderB)
+        #self.datatxt(self.xxb,self.Xb,self.orderB)
         return self.xxb
 
     def N1(self, SOL):
@@ -321,8 +345,17 @@ class SA():
         order.pop(order[ii])
         order.insert(order[jj],aux)
     
-    def datatxt(self,cost,layout,ordens):
-        with open('results.txt','w')as results:
-            results.write(str(cost)+"\n")
-            results.write(str(layout)+"\n")
-            results.write(str(ordens)+"\n")
+    def save_xls(self):
+        df1 = pd({'Collect Orders': self.orderB})
+        df2 = pd({'Warehouse': self.Xb})
+
+        # Usando o ExcelWriter, cria um doc .xlsx, usando engine='xlsxwriter'
+        writer = ex('Solution.xlsx', engine='xlsxwriter')
+
+        # Armazena cada df em uma planilha diferente do mesmo arquivo
+        df1.to_excel(writer, sheet_name='Collect Orders',index=False)
+        df2.to_excel(writer, sheet_name='Layout Warehouse',index=False)
+
+        # Fecha o ExcelWriter e gera o arquivo .xlsx
+        writer.save()
+        print("Solucao salva!")

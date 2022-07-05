@@ -83,7 +83,7 @@ button_2 = Button(
     image=button_image_2,
     borderwidth=0,
     highlightthickness=0,
-    command=lambda: print("button_1 clicked"),
+    command=alg.save_xls,
     relief="flat"
 )
 button_2.place(
