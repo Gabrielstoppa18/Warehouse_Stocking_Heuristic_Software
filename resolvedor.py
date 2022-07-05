@@ -84,8 +84,30 @@ class SA():
     def imprimeOrd(self,order):
         print('Lista de produtos: ',order)
 
-    def objetivo(self,SOL,order):
+    def objetivo2(self,SOL,order):
+        coleta=0
+        
+        while True:
+            for l in range(0,len(order)-1):  
+                o,p,u=order[l]
+                a,b=self.SOL[o-1]
 
+                k,s,v=order[l+1]
+                c,d=SOL[k-1]
+                if len(self.car.carrinho[p])==self.car.capcesta:
+                    objt += self.arm.dist[a][0]
+                    self.car.carrinho[p]=[]
+                    objt += self.arm.dist[0][c]
+
+                    self.car.carrinho[s].append(c)  
+                else:
+                    self.car.carrinho[s].append(c) 
+                    objt += self.arm.dist[a][c]
+
+    def objetivo(self,SOL,order):
+        print("Ordem antes",order)
+        #order.sort()
+        print("Ordem depois",order)
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
 
@@ -95,46 +117,34 @@ class SA():
         
         #Coleta primeiro produto
         collected=0
-        i,j=order[0]
+        i,j,e=order[0]
         a,b=SOL[i-1]
         capcar=0
         objt += self.arm.dist[0][a]
+        print("coletou ",i, "em ",j)
         self.car.carrinho[j].append(i)
         order[0]=(i,j,1)
         capcar+=1
         collected+=1
-        while collected !=len(order):
-            for l in range(0,len(order)-1):
-                
-                o,p=order[l]
-                a,b=self.SOL[o-1]
+        for l in range(0,len(order)-1):
+            o,p,u=order[l]
+            a,b=self.SOL[o-1]
 
-                k,s,t=order[l+1]
-                c,d=SOL[k-1]
-                if t==1:
-                    continue
-                else:
-                    if capcar ==self.car.captotal:
-                        objt += self.arm.dist[a][0]
-                        self.car.carrinho[p]=[]
-                        objt += self.arm.dist[0][c]
-                        self.car.carrinho[s].append(c)
-                        capcar+=1
-                        collected+=1
-                        order[l+1]=(k,s,1)
-                    else:
-                        if len(self.car.carrinho[p])==self.car.capcesta:
-                            continue  
-                        else:
-                            self.car.carrinho[s].append(c) 
-                            objt += self.arm.dist[a][c]
-                            capcar+=1
-                            collected+=1
-                            order[l+1]=(k,s,1)
-            
+            k,s,v=order[l+1]
+            c,d=SOL[k-1]
+            if len(self.car.carrinho[p])==self.car.capcesta:
+                objt += self.arm.dist[a][0]
+                self.car.carrinho[p]=[]
+                objt += self.arm.dist[0][c]
+
+                self.car.carrinho[s].append(c)  
+            else:
+                self.car.carrinho[s].append(c) 
+                objt += self.arm.dist[a][c]
+        
         #Retorna para a entrada
         i=len(order)-1
-        g,h=order[i]
+        g,h,v=order[i]
         a,b=SOL[h-1]
             
         objt += self.arm.dist[a][0]
