@@ -85,19 +85,23 @@ class SA():
         print('Lista de produtos: ',order)
 
     def organizar(self,order):
+
         for i in range(len(order)):
             o,p,u=order[i]
-            for j in range(len(order)):
+            for j in range(i+1,len(order)):
                 k,s,v=order[j]
                 if o==k:
-                    aux=order[i]
-                    order.pop(i)
-                    order.insert(j,aux)
+                    aux=order[j]
+                    order.pop(j)
+                    order.insert(i+1,aux)
+                    
+
+
     def objetivo(self,SOL,ordem):
         order=copy.deepcopy(ordem)
         '''
         print("Ordem antes",order)
-        self.organizar(order)
+        
         print("Ordem depois",order)
         '''
         #order: (produto,ordem)
@@ -158,6 +162,13 @@ class SA():
         self.solInicial()
         self.imprimeSol(self.SOL,self.order)
         valor=self.objetivo(self.SOL,self.order)
+        
+ 
+        print("Ordem antes",self.order)
+        self.organizar(self.order)
+        print("Ordem depois",self.order)
+
+
         print("Custo inicial:", valor)
         
         self.Xb = copy.deepcopy(self.SOL)
@@ -289,7 +300,7 @@ class SA():
                 elif rd == 1:
                     self.N_2(y)
                    
-                
+                self.organizar(y)
                 yy = self.objetivo(arm,y)
                 #print('yy: ',yy)
                 delta = yy-xx
