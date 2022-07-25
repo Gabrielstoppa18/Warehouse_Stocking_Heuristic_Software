@@ -158,7 +158,7 @@ class SA():
         self.it = 5
         self.Tf = 1
         self.T0 = 5
-        self.arquivos()
+        #self.arquivos()
         self.solInicial()
         self.imprimeSol(self.SOL,self.order)
         valor=self.objetivo(self.SOL,self.order)
