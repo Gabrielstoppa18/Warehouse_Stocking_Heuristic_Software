@@ -35,8 +35,8 @@ class SA():
         self.maxcar=2
     class Carro:
         def __init__(self):
-            self.capcesta=2
-            self.numcestas=5
+            self.capcesta=10
+            self.numcestas=8
             self.captotal=self.capcesta*self.numcestas
             self.cestas=[]
             self.carrinho=[]
@@ -124,9 +124,9 @@ class SA():
 
             k,s,v=order[l+1]
             c,d=SOL[k-1]
-            if capcar==self.car.captotal:
+            if len(self.car.carrinho[s])==self.car.capcesta:
                 objt += self.arm.dist[a][0]
-                self.car.carrinho[p]=[]
+                self.car.carrinho[s]=[]
                 objt += self.arm.dist[0][c]
 
                 self.car.carrinho[s].append(c)
@@ -154,8 +154,8 @@ class SA():
     def sa(self):
         #self.rd = np.random.randint(0,2)
         
-        self.alpha =0.90
-        self.it = 5
+        self.alpha =0.95
+        self.it = 10
         self.Tf = 1
         self.T0 = 5
         #self.arquivos()

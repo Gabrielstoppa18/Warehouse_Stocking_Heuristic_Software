@@ -3,10 +3,7 @@ import time
 
 alg= resolvedor.SA()
 
-alpha = 0.97
-iter=15
-Tf = 1.0
-To = 5.0
+
 tempot = 0
 custot = 0
 custo = []
@@ -24,9 +21,9 @@ arquivo.close()
 
 arquivo = open('instancias.txt','a')
 caminho = 'Instancias'
-file = '\instances_d5_ord'
+file = '/instances_d5_ord'
 inst = []
-for k in range(5,75):
+for k in range(6,7):
     print(k)
     inst.append(caminho+file+str(k))
 for i in range(len(inst)):
@@ -45,5 +42,5 @@ for i in range(len(inst)):
         print(j)
     tempom=tempot/5
     custom = custot/5
-    arquivo.write(inst[i]+"&"+str(alg.arm.cel*alg.arm.prt)+"&"+str(alg.arm.totalord)+"&"+str(alpha)+"&"+str(iter)+"&"+str(To)+"&"+str(Tf)+"&"+str(tempom)+"&"+str(custom)+"&"+str(custob)+"\n")
+    arquivo.write(inst[i]+"&"+str(alg.arm.totalord)+"&"+str(tempom)+"&"+str(custom)+"&"+str(custob)+"\n")
 arquivo.close()
