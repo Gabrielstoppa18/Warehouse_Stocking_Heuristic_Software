@@ -15,6 +15,7 @@ class Pos():
         self.quantidade = 0       
 class SA():
     def __init__(self):
+        self.cestas= self.Cesta()
         self.car=self.Carro()
         self.x=0
         self.y=0
@@ -38,9 +39,12 @@ class SA():
             self.capcesta=10
             self.numcestas=8
             self.captotal=self.capcesta*self.numcestas
-            self.cestas=[]
             self.carrinho=[]
-            
+    class Cesta:
+        def __init__(self):
+            self.produtos=[]
+            self.ordem=0
+
     def arquivos(self):
         file=open('entrada.txt','r')
         arq = file.read().splitlines()
@@ -64,7 +68,7 @@ class SA():
 
     def solInicial(self):
         for i in range(self.car.numcestas):
-                self.car.carrinho.append(self.car.cestas)
+                self.car.carrinho.append(self.cestas)
         self.SOL=[]
 
         self.randomid1 = []
@@ -115,7 +119,8 @@ class SA():
         a,b=SOL[i-1]
         capcar=0
         objt += self.arm.dist[0][a]
-        self.car.carrinho[j].append(i)
+        self.car.carrinho[j].produtos.append(i)
+        print(self.car.carrinho[0].produtos)
         capcar+=1
         l=0
         while len(order)!=1:
