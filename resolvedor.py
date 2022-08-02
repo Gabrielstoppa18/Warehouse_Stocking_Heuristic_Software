@@ -33,6 +33,7 @@ class SA():
         self.xxb = sys.maxsize
         self.xy = [0,0]
         self.order=[]
+        self.pos_ordem=[]
         self.maxcar=2
     class Carro:
         def __init__(self):
@@ -67,6 +68,8 @@ class SA():
             self.arm.openFile()
 
     def solInicial(self):
+        for i in range(self.arm.totalord):
+            self.pos_ordem.append(-1)
         for i in range(self.car.numcestas):
                 self.car.carrinho.append(self.cestas)
         self.SOL=[]
@@ -110,36 +113,56 @@ class SA():
         '''
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
-
+        for i in range(len(self.pos_ordem)):
+            self.pos_ordem[i]=-1
         objetivo=[]
         objt=0.0
-        
+        cesta_usada=0
         #Coleta primeiro produto
         i,j,e=order[0]
         a,b=SOL[i-1]
         capcar=0
         objt += self.arm.dist[0][a]
-        self.car.carrinho[j].produtos.append(i)
-        print(self.car.carrinho[0].produtos)
+        self.pos_ordem[j]=cesta_usada
+        cesta_usada+=1
+        self.car.carrinho[self.pos_ordem[j]].produtos.append(i)
+        print(self.car.carrinho[j].produtos)
         capcar+=1
         l=0
         while len(order)!=1:
             o,p,u=order[l]
             a,b=self.SOL[o-1]
-
+            if self.pos_ordem[p] != -1:
+                u=self.pos_ordem[p]
+            else:
+                self.pos_ordem[p]=cesta_usada
+                cesta_usada+=1
             k,s,v=order[l+1]
             c,d=SOL[k-1]
-            if len(self.car.carrinho[s])==self.car.capcesta:
+
+            if self.pos_ordem[s] != -1:
+                v=self.pos_ordem[s]
+            else:
+                self.pos_ordem[s]=cesta_usada
+                cesta_usada+=1
+
+            if cesta_usada>=self.car.capcesta:
                 objt += self.arm.dist[a][0]
-                self.car.carrinho[s]=[]
+                for i in range(len(self.car.carrinho)):
+                    self.car.carrinho[i].produtos=[]
                 objt += self.arm.dist[0][c]
 
-                self.car.carrinho[s].append(c)
+                self.car.carrinho[v].produtos.append(c)
+                for j in range(len(self.pos_ordem)):
+                    self.pos_ordem[j]=-1
+                cesta_usada=0
+                self.pos_ordem[s]=cesta_usada
+                cesta_usada+=1
                 capcar+=1
                 order.pop(l)  
             else:
                 objt += self.arm.dist[a][c]
-                self.car.carrinho[s].append(c)
+                self.car.carrinho[v].produtos.append(c)
                 capcar+=1
                 order.pop(l) 
                 

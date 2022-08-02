@@ -23,7 +23,7 @@ arquivo = open('instancias.txt','a')
 caminho = 'Instancias'
 file = '/instances_d5_ord'
 inst = []
-for k in range(6,7):
+for k in range(8,9):
     print(k)
     inst.append(caminho+file+str(k))
 for i in range(len(inst)):
