@@ -1,5 +1,5 @@
 from pyparsing import And
-import entrada
+import entrada_o
 import math
 import numpy as np
 import copy
@@ -15,6 +15,7 @@ class Pos():
         self.quantidade = 0       
 class SA():
     def __init__(self):
+        self.cestas= self.Cesta()
         self.car=self.Carro()
         self.x=0
         self.y=0
@@ -24,7 +25,7 @@ class SA():
         #self.iter=10
         #self.Tf = 1.0
         #self.T0 = 5.0
-        self.arm= entrada.Armazem()
+        self.arm= entrada_o.Armazem()
         #self.cel=[]
         self.SOL=[]
         self.Xb=[]
@@ -32,15 +33,19 @@ class SA():
         self.xxb = sys.maxsize
         self.xy = [0,0]
         self.order=[]
+        self.pos_ordem=[]
         self.maxcar=2
     class Carro:
         def __init__(self):
-            self.capcesta=2
-            self.numcestas=5
+            self.capcesta=10
+            self.numcestas=8
             self.captotal=self.capcesta*self.numcestas
-            self.cestas=[]
             self.carrinho=[]
-            
+    class Cesta:
+        def __init__(self):
+            self.produtos=[]
+            self.ordem=0
+
     def arquivos(self):
         file=open('entrada.txt','r')
         arq = file.read().splitlines()
@@ -63,8 +68,10 @@ class SA():
             self.arm.openFile()
 
     def solInicial(self):
+        for i in range(self.arm.totalord):
+            self.pos_ordem.append(-1)
         for i in range(self.car.numcestas):
-                self.car.carrinho.append(self.car.cestas)
+                self.car.carrinho.append(self.cestas)
         self.SOL=[]
 
         self.randomid1 = []
@@ -84,50 +91,80 @@ class SA():
     def imprimeOrd(self,order):
         print('Lista de produtos: ',order)
 
-    
-    def objetivo(self,SOL,order):
-        ordem=copy.deepcopy(order)
-        #print("Ordem antes",ordem)
-        #order.sort()
-        #print("Ordem depois",ordem)
+    def organizar(self,order):
+
+        for i in range(len(order)):
+            o,p,u=order[i]
+            for j in range(i+1,len(order)):
+                k,s,v=order[j]
+                if o==k:
+                    aux=order[j]
+                    order.pop(j)
+                    order.insert(i+1,aux)
+                    
+
+
+    def objetivo(self,SOL,ordem):
+        order=copy.deepcopy(ordem)
+        '''
+        print("Ordem antes",order)
+        
+        print("Ordem depois",order)
+        '''
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
-
-        # self.SOL = SOL
+        for i in range(len(self.pos_ordem)):
+            self.pos_ordem[i]=-1
         objetivo=[]
         objt=0.0
-        
+        cesta_usada=0
         #Coleta primeiro produto
-        i,j,e=ordem[0]
+        i,j,e=order[0]
         a,b=SOL[i-1]
         capcar=0
         objt += self.arm.dist[0][a]
-        self.car.carrinho[j].append(i)
-        ordem[0]=(i,j,1)
-        ordem.pop(0)
-        print(len(ordem))
+        self.pos_ordem[j]=cesta_usada
+        cesta_usada+=1
+        self.car.carrinho[self.pos_ordem[j]].produtos.append(i)
         capcar+=1
-        while len(ordem)!= 1:
-            print(len(ordem))
-            for l in range(0,len(ordem)-1):
-                print(len(ordem))
-                o,p,u=ordem[l]
-                a,b=self.SOL[o-1]
+        l=0
+        while len(order)!=1:
+            o,p,u=order[l]
+            a,b=self.SOL[o-1]
+            if self.pos_ordem[p] != -1:
+                u=self.pos_ordem[p]
+            else:
+                self.pos_ordem[p]=cesta_usada
+                cesta_usada+=1
+            k,s,v=order[l+1]
+            c,d=SOL[k-1]
 
-                k,s,v=ordem[l+1]
-                c,d=SOL[k-1]
-                if capcar==self.car.captotal:
-                    objt += self.arm.dist[a][0]
-                    self.car.carrinho[p]=[]
-                    objt += self.arm.dist[0][c]
+            if self.pos_ordem[s] != -1:
+                v=self.pos_ordem[s]
+            else:
+                self.pos_ordem[s]=cesta_usada
+                cesta_usada+=1
 
-                    self.car.carrinho[s].append(c)
-                    ordem.pop(l+1)  
-                else:
-                    self.car.carrinho[s].append(c) 
-                    objt += self.arm.dist[a][c]
-                    ordem.pop(l+1)
-        
+            if cesta_usada>=self.car.capcesta:
+                objt += self.arm.dist[a][0]
+                for i in range(len(self.car.carrinho)):
+                    self.car.carrinho[i].produtos=[]
+                objt += self.arm.dist[0][c]
+
+                self.car.carrinho[v].produtos.append(c)
+                for j in range(len(self.pos_ordem)):
+                    self.pos_ordem[j]=-1
+                cesta_usada=0
+                self.pos_ordem[s]=cesta_usada
+                cesta_usada+=1
+                capcar+=1
+                order.pop(l)  
+            else:
+                objt += self.arm.dist[a][c]
+                self.car.carrinho[v].produtos.append(c)
+                capcar+=1
+                order.pop(l) 
+                
         #Retorna para a entrada
         i=len(ordem)-1
         g,h,v=ordem[i]
@@ -144,14 +181,18 @@ class SA():
     def sa(self):
         #self.rd = np.random.randint(0,2)
         
-        self.alpha =0.90
-        self.it = 5
+        self.alpha =0.95
+        self.it = 10
         self.Tf = 1
         self.T0 = 5
-        self.arquivos()
+        #self.arquivos()
         self.solInicial()
         self.imprimeSol(self.SOL,self.order)
         valor=self.objetivo(self.SOL,self.order)
+ 
+        self.organizar(self.order)
+
+
         print("Custo inicial:", valor)
         
         self.Xb = copy.deepcopy(self.SOL)
@@ -283,7 +324,7 @@ class SA():
                 elif rd == 1:
                     self.N_2(y)
                    
-                
+                self.organizar(y)
                 yy = self.objetivo(arm,y)
                 #print('yy: ',yy)
                 delta = yy-xx
