@@ -28,8 +28,27 @@ class Armazem:
         self.nome = ""
         self.loc=[]
         self.dist=[]
+    def clear(self):
+        self.A = nx.Graph()
+        self.numAisles = 0
+        self.numShelves = 0
+        self.numLocPerAisleSide = 0
+        self.totalLocations = 0
+        self.totalvertices = 0
+        self.numProdVertices = 0
+        self.totalpro=0
+        self.totalord=0
+        self.ordens=[]
+        self.qtprod=[]
+        self.vertPos= [(0,0)]
+        self.po=[Produto()]
+        self.ord=[Ordem()]
+        self.nome = ""
+        self.loc=[]
+        self.dist=[]
     def leitura(self,arq1,arq2,arq3):
 
+        self.clear()
         a= arq1[1].split()
         b= arq1[3].split()
         c=arq1[12].split()

@@ -68,6 +68,9 @@ class SA():
             self.arm.openFile()
 
     def solInicial(self):
+        self.SOL=[]
+        self.order=[]
+        self.pos_ordem=[]
         for i in range(self.arm.totalord):
             self.pos_ordem.append(-1)
         for i in range(self.car.numcestas):
@@ -166,8 +169,8 @@ class SA():
                 order.pop(l) 
                 
         #Retorna para a entrada
-        i=len(ordem)-1
-        g,h,v=ordem[i]
+        i=len(order)-1
+        g,h,v=order[i]
         a,b=SOL[h-1]
             
         objt += self.arm.dist[a][0]
@@ -186,8 +189,13 @@ class SA():
         self.Tf = 1
         self.T0 = 5
         #self.arquivos()
+        del self.SOL
+        del self.order
+        self.SOL=[]
+        self.order=[]
+        self.pos_ordem=[]
         self.solInicial()
-        self.imprimeSol(self.SOL,self.order)
+        #self.imprimeSol(self.SOL,self.order)
         valor=self.objetivo(self.SOL,self.order)
  
         self.organizar(self.order)
@@ -241,7 +249,7 @@ class SA():
             self.T=self.alpha*self.T
             #print("-Temperatura Atual:",self.T)
         print("-Solução Final do Problema:")
-        self.imprimeSol(self.Xb,self.orderB)
+        #self.imprimeSol(self.Xb,self.orderB)
         print("-Custo Total da solução:",self.xxb)
         #self.datatxt(self.xxb,self.Xb,self.orderB)
         return self.xxb
@@ -383,12 +391,19 @@ class SA():
         order.insert(order[jj],aux)
     
     def save_xls(self):
-        df1 = pd({'Collect Orders': self.orderB})
-        df2 = pd({'Warehouse': self.Xb})
+        produtos=np.arange(1,len(self.Xb))
+        nos=self.Xb[:][0]
+        prateleira=self.Xb[:][1]
+        produto_o=self.orderB[:][0]
+        print(produto_o)
+        ordem=self.orderB[:][1]
+        print(ordem)
+        df1 = pd({'Products': produto_o,'Order': ordem})
+        df2 = pd({'Products': produtos,'Nodes': nos,'Shelves': prateleira})
 
         # Usando o ExcelWriter, cria um doc .xlsx, usando engine='xlsxwriter'
+        #writer = ex('Solution.xlsx')
         writer = ex('Solution.xlsx', engine='xlsxwriter')
-
         # Armazena cada df em uma planilha diferente do mesmo arquivo
         df1.to_excel(writer, sheet_name='Collect Orders',index=False)
         df2.to_excel(writer, sheet_name='Layout Warehouse',index=False)
