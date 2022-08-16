@@ -1,2 +1,0 @@
-Instancias\instances_d5_ord5.txt&9.47058972&123.274&616.37
-Instancias\instances_d5_ord6.txt&19.660801979999995&246.548&616.37

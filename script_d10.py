@@ -27,12 +27,16 @@ for k in range(5,31):
     print(k)
     inst.append(caminho+file+str(k)+'.txt')
 for i in range(len(inst)):
+    tempot = 0
+    custot = 0
+    custo = []
+    custob = 100000
     alg.arm.clear()
     file = open(inst[i], 'r')
     arq = file.read().splitlines() 
     alg.arm.leitura(arq2,arq3,arq)
     print(alg.arm.ordens)
-    for j in range(1):
+    for j in range(5):
         timer_inicio = time.perf_counter()
         custo.append(alg.sa())
         timer_fim = time.perf_counter()
