@@ -1,3 +1,3 @@
-C:/Users/gabri/Desktop/Programacao/Ic Python 2022/Layout.txt
-C:/Users/gabri/Desktop/Programacao/Ic Python 2022/Products.txt
-C:/Users/gabri/Desktop/Programacao/Ic Python 2022/Instancias/instances_d5_ord6.txt
+/home/gabriel/Documentos/IC_2022/IT_2022/Layout.txt
+/home/gabriel/Documentos/IC_2022/IT_2022/Products.txt
+/home/gabriel/Documentos/IC_2022/IT_2022/instances_d5_ord5.txt
