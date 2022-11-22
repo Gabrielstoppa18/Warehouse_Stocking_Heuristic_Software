@@ -35,6 +35,7 @@ class SA():
         self.order=[]
         self.pos_ordem=[]
         self.maxcar=2
+        self.close=[]
     class Carro:
         def __init__(self):
             self.capcesta=10
@@ -85,6 +86,10 @@ class SA():
         for i in range(self.arm.totalpro):
             self.SOL.append(self.randomid1[i])
         self.order=copy.deepcopy(self.arm.ordens)
+
+        for i in range(1,self.arm.numProdVertices):
+            self.close.append((self.arm.dist[0][i],i))
+        print(sorted(self.close))
        
     def imprimeSol(self,SOL,order):
 
@@ -290,29 +295,11 @@ class SA():
         #self.SOL[self.j][self.jc].quantidade = 0
         #print("N2")
     def N3(self,SOL):
-        # self.SOL = SOL
-        i = np.random.randint(0,len(SOL))
-        j =0
-        A0= sys.maxsize
-
-        if SOL[i] == 0:
-            return
-        k=i
-        for l in range(self.arm.cel):
-            A = self.dist(self.arm.nex, self.arm.ney, self.arm.pa[k].pra[l].xcel,self.arm.pa[k].pra[l].ycel)
-            if SOL[k][l] == 0 and A < A0:
-                A0 = A
-                j = k
-                jc = l
-        # if self.SOL[self.j][self.jc] != 0:
-        #     return
-        # if self.SOL[self.j][self.jc] != 0 and self.SOL[self.i][self.ic] == 0:
-        #     return
-        SOL[j] = SOL[i]
-        SOL[i]= 0
-
-        #self.SOL[self.i][self.ic].quantidade = 0
-        #print("N3")
+        for s in range(len(SOL)):
+            for i in range(len(self.order)):
+                k,j,e=self.order[i] 
+                if
+       
     def SA2(self,arm,ord):
         alpha =0.90
         it = 5
@@ -391,13 +378,22 @@ class SA():
         order.insert(order[jj],aux)
     
     def save_xls(self):
-        produtos=np.arange(1,len(self.Xb))
-        nos=self.Xb[:][0]
-        prateleira=self.Xb[:][1]
-        produto_o=self.orderB[:][0]
-        print(produto_o)
-        ordem=self.orderB[:][1]
-        print(ordem)
+        produtos=np.arange(1,len(self.Xb)+1)
+        print(len(produtos))
+        nos=[]
+        prateleira=[]
+        for j in range(len(self.Xb)):
+            a,b=self.Xb[j]
+            nos.append(a)
+            prateleira.append(b)
+        print(len(nos))
+        print(len(prateleira))
+        produto_o=[]
+        ordem=[]
+        for i in range(len(self.orderB)):
+            a,b,c=self.orderB[i]
+            produto_o.append(a)
+            ordem=b
         df1 = pd({'Products': produto_o,'Order': ordem})
         df2 = pd({'Products': produtos,'Nodes': nos,'Shelves': prateleira})
 
