@@ -120,8 +120,9 @@ class Armazem:
         for i in range(self.totalord):
             inf = arq3[b].split()
             self.ord[i].totprod = int(inf[0])
+            cestas=int(inf[0])/10
             for j in range(0,self.ord[i].totprod*2,2):
-                tupla=(int(inf[1+j]),i,0)
+                tupla=(int(inf[1+j]),i,cestas)
                 self.ordens.append(tupla)
                 self.ord[i].lprod.append(int(inf[1+j]))
             for j in range(1,self.ord[i].totprod*2+1,2):
