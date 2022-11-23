@@ -1,7 +1,7 @@
 from tkinter import filedialog
 import networkx as nx
 import matplotlib.pyplot as plt
-
+import math
 #import matplotlib.pyplot as plt
 #import sympy as sp
 import numpy as np
@@ -28,6 +28,9 @@ class Armazem:
         self.nome = ""
         self.loc=[]
         self.dist=[]
+        self.capcesta=10
+        self.numcestas=8
+
     def clear(self):
         self.A = nx.Graph()
         self.numAisles = 0
@@ -120,7 +123,7 @@ class Armazem:
         for i in range(self.totalord):
             inf = arq3[b].split()
             self.ord[i].totprod = int(inf[0])
-            cestas=int(inf[0])/10
+            cestas=int(math.ceil(int(inf[0])/self.capcesta))
             for j in range(0,self.ord[i].totprod*2,2):
                 tupla=(int(inf[1+j]),i,cestas)
                 self.ordens.append(tupla)

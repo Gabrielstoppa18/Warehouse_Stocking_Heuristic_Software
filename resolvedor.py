@@ -38,8 +38,8 @@ class SA():
         self.close=[]
     class Carro:
         def __init__(self):
-            self.capcesta=10
-            self.numcestas=8
+            self.capcesta=self.arm.capcesta
+            self.numcestas=self.arm.numcesta
             self.captotal=self.capcesta*self.numcestas
             self.carrinho=[]
     class Cesta:
@@ -109,6 +109,11 @@ class SA():
                     aux=order[j]
                     order.pop(j)
                     order.insert(i+1,aux)
+    
+    def cesta_vazia(self,pos_ordem):
+        for i in range(len(pos_ordem)):
+            if pos_ordem[i].second < self.car.capcesta:
+                return i
                     
     def objetivo2(self,SOL,ordem):
         order=copy.deepcopy(ordem)
@@ -129,9 +134,11 @@ class SA():
         a,b=SOL[i-1]
         capcar=0
         objt += self.arm.dist[0][a]
-        self.pos_ordem[j].append(cesta_usada)
-        cesta_usada+=1
-        self.car.carrinho[self.pos_ordem[j]].produtos.append(i)
+        for k in range(e):
+            self.pos_ordem[j].append((cesta_usada,0))
+            cesta_usada+=1
+        id= self.cesta_vazia(self.pos_ordem[j])
+        self.car.carrinho[id].produtos.append(i)
         capcar+=1
         l=0
         while len(order)!=1:
@@ -139,10 +146,16 @@ class SA():
             o,p,u=order[l]
             a,b=self.SOL[o-1]
             if len(self.pos_ordem[p]) > 0:
-                u=self.pos_ordem[p][-1]
+                u=self.cesta_vazia(self.pos_ordem[j])               
             else:
-                self.pos_ordem[p].append(cesta_usada)
-                cesta_usada+=1
+                if cesta_usada+ u <=self.car.numcestas:
+                    for k in range(u):
+                        self.pos_ordem[p].append((cesta_usada,0))
+                        cesta_usada+=1
+                else:
+                    print("Erro 1:", l)
+                    l+=1
+                    continue
             k,s,v=order[l+1]
             c,d=SOL[k-1]
 
