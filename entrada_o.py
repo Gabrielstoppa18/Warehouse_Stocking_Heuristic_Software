@@ -1,11 +1,7 @@
 from tkinter import filedialog
 import networkx as nx
 import matplotlib.pyplot as plt
-
-#import matplotlib.pyplot as plt
-#import sympy as sp
 import numpy as np
-from tkinter import filedialog
 
 
 
@@ -131,24 +127,6 @@ class Armazem:
                 self.ord[i].qtprod.append(int(inf[1+j]))
             
             b+=1
-        #print(self.qtprod, self.ordens)    
-    def imprimir(self):
-        with open('entrada.txt','w')as entrada:
-            entrada.write("Entrada: "+str(self.nex)+" "+ str(self.ney)+" "+ str(self.nez)+"\n")
-            entrada.write("Saida: "+str(self.nsx)+" "+ str(self.nsy)+" "+ str(self.nsz)+"\n")
-            entrada.write("Espacos de alocacao: "+str(self.prt*self.cel)+"\n")
-            entrada.write("Prat: "+str(self.prt)+"\n")
-            entrada.write("Cel: "+str(self.cel)+"\n")
-            for i in range(self.prt):
-                for j in range(self.cel):
-                    entrada.write("ID da celula:"+str(self.pa[i].pra[j].idcel)+ " "+ "X/Y/Z: "+str(self.pa[i].pra[j].xcel)+" "+str(self.pa[i].pra[j].ycel)+" "+str(self.pa[i].pra[j].zcel)+"\n")
-            entrada.write("Total de produtos:"+str(self.totalpro)+"\n")
-            entrada.write("Produtos: \n")
-            for i in range(self.totalpro):
-                entrada.write(str(self.po[i].idprod)+"\n")
-            entrada.write("Total de ordens:"+str(self.totalord)+"\n")
-            for i in range(self.totalord):
-                entrada.write(str(self.ord[i].totprod)+" "+str(self.ord[i].lprod)+"\n")
 
     def openFile(self):
         with open('entrada.txt','w')as entrada:

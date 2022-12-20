@@ -266,8 +266,7 @@ class SA():
 
     
     def sa(self):
-        #self.rd = np.random.randint(0,2)
-        
+                
         self.alpha =0.95
         self.it = 10
         self.Tf = 1
