@@ -435,12 +435,27 @@ class SA():
         Tf = 1
         T0 = 5
         T=T0
+
+        #####Parametros RL#####
+        al=0.1#alpha
+        gamma=0.1
+        epsilon=0.1
+        epsilon_decay=0.99#fator de decaimento
+        #######################
+        Q=[]# Tabela Q
         xxb=sys.maxsize
         while T >= Tf:
             for i in range(it):
-                xx = self.objetivo(arm,ord)
+                reward=0
+                epsilon=epsilon*epsilon_decay#decaimento
+                xx = self.objetivo2(arm,ord)
                 y = copy.deepcopy(ord)
-                rd = np.random.randint(0,1)
+                y_current=copy.deepcopy(y)
+                if np.random.rand()<epsilon:
+                    rd = np.random.randint(0,1)
+                else:
+                    rd=max(Q[y])
+                
                 # self.r = self.rd
                 if rd == 0:
                     self.N_1(y)
@@ -449,24 +464,30 @@ class SA():
                     self.N_2(y)
                    
                 self.organizar(y)
-                yy = self.objetivo(arm,y)
+                yy = self.objetivo2(arm,y)
                 #print('yy: ',yy)
                 delta = yy-xx
                 if delta <= 0:
                     ord= copy.deepcopy(y)
+                    reward=10
                     # self.SOL = self.Y
                     xx = yy
                 else:
+                    reward=-5
                     rr = (np.random.randint(0,100))/100
                     if rr < math.exp(-delta/T):
                         # self.SOL = self.Y
                         ord = copy.deepcopy(y)
                         xx = yy
                 if xx < xxb:
+                    reward=15
                     # self.Xb = self.SOL
                     xb = copy.deepcopy(ord)
                     xxb = xx
-            
+
+                #######RL######
+                Q.append((y_current,rd,reward))
+
             T=alpha*T
             #print("-Temperatura Atual:",self.T)
         '''
@@ -475,7 +496,7 @@ class SA():
         '''
         
         #self.imprimeSol(arm,xb)
-        #print("-Custo solução SA2:",xxb)
+        print("-Custo solução SA2:",xxb)
         
         return xxb,xb
     def N_1(self,order):
