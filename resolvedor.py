@@ -443,6 +443,12 @@ class SA():
         epsilon_decay=0.99#fator de decaimento
         #######################
         Q=[]# Tabela Q
+        keys=[]
+        values=[]
+        for i in range(10000):
+            keys.append(0)
+            values.append(0)
+        dict_Q=dict(zip(keys,values))
         xxb=sys.maxsize
         while T >= Tf:
             for i in range(it):
@@ -454,7 +460,19 @@ class SA():
                 if np.random.rand()<epsilon:
                     rd = np.random.randint(0,1)
                 else:
-                    rd=max(Q[y])
+                    if y in Q:
+                       for i, lst in enumerate(Q):
+                            if lst == y:
+                                r=dict_Q[i]
+                                if r[1]<=0:
+                                    rd = np.random.randint(0,1)
+                                else:
+                                    rd=r[0]
+                                break 
+                    else:
+                        rd = np.random.randint(0,1)
+                        Q.append(y)
+                    
                 
                 # self.r = self.rd
                 if rd == 0:
@@ -486,8 +504,11 @@ class SA():
                     xxb = xx
 
                 #######RL######
-                Q.append((y_current,rd,reward))
-
+                #Q.append(y_current),rd,reward
+                for i, lst in enumerate(Q):
+                    if lst == y_current:
+                        dict_Q[i]=[rd,reward]
+                        break
             T=alpha*T
             #print("-Temperatura Atual:",self.T)
         '''
