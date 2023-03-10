@@ -162,7 +162,7 @@ class SA():
                     if order[i][0] != -1:
                         l=i 
                         break
-                print(l)
+                #print(l)
                 prod_pos_atual=0
                 if l==-1:
                     break
@@ -342,7 +342,7 @@ class SA():
         self.xxb=valor
 
         self.T = self.T0
-
+        xx,ord = self.SA2(self.SOL,self.order)
         '''while self.T >= self.Tf:
             for i in range(self.it):
                 #print('-----------------ITERAÇÃO------------------')
@@ -431,10 +431,17 @@ class SA():
        
     def SA2(self,arm,ord):
         alpha =0.90
-        it = 5
+        it = 1000
         Tf = 1
-        T0 = 5
+        T0 = 10
         T=T0
+
+        ####Contando os operadores####
+        n1=0
+        n2=0
+        n3=0
+        n4=0
+        ##############################
 
         #####Parametros RL#####
         al=0.1#alpha
@@ -442,13 +449,8 @@ class SA():
         epsilon=0.1
         epsilon_decay=0.99#fator de decaimento
         #######################
-        Q=[]# Tabela Q
-        keys=[]
-        values=[]
-        for i in range(10000):
-            keys.append(0)
-            values.append(0)
-        dict_Q=dict(zip(keys,values))
+        
+        dict_Q={}
         xxb=sys.maxsize
         while T >= Tf:
             for i in range(it):
@@ -456,31 +458,40 @@ class SA():
                 epsilon=epsilon*epsilon_decay#decaimento
                 xx = self.objetivo2(arm,ord)
                 y = copy.deepcopy(ord)
-                y_current=copy.deepcopy(y)
+                ys=str(y)
                 if np.random.rand()<epsilon:
-                    rd = np.random.randint(0,1)
+                    #print("Aleatório")
+                    rd = np.random.randint(0,4)
                 else:
-                    if y in Q:
-                       for i, lst in enumerate(Q):
-                            if lst == y:
-                                r=dict_Q[i]
-                                if r[1]<=0:
-                                    rd = np.random.randint(0,1)
-                                else:
-                                    rd=r[0]
-                                break 
+                    if ys in dict_Q:
+                        r=dict_Q[ys]
+                        if r[1]<=0:
+                            #print("IA")
+                            rd = np.random.randint(0,4)
+                        else:
+                            #print("Sem dados")
+                            rd=r[0]
+
                     else:
-                        rd = np.random.randint(0,1)
-                        Q.append(y)
-                    
-                
+                        rd = np.random.randint(0,4)  
+
+                #print(rd)
                 # self.r = self.rd
                 if rd == 0:
                     self.N_1(y)
-                   
+                    n1+=1
+
                 elif rd == 1:
                     self.N_2(y)
-                   
+                    n2+=1
+
+                elif rd == 2:
+                    self.N_3(y)
+                    n3+=1
+                elif rd == 3:
+                    self.N_4(y)
+                    n4+=1
+
                 self.organizar(y)
                 yy = self.objetivo2(arm,y)
                 #print('yy: ',yy)
@@ -505,22 +516,24 @@ class SA():
 
                 #######RL######
                 #Q.append(y_current),rd,reward
-                for i, lst in enumerate(Q):
-                    if lst == y_current:
-                        dict_Q[i]=[rd,reward]
-                        break
+                dict_Q[ys]=[rd,reward]
             T=alpha*T
             #print("-Temperatura Atual:",self.T)
         '''
         print("-Solução do SA2:")
         
         '''
-        
+        print("N1: ",n1)
+        print("N2: ",n2)
+        print("N3: ",n3)
+        print("N4: ",n4)
         #self.imprimeSol(arm,xb)
         print("-Custo solução SA2:",xxb)
         
         return xxb,xb
     def N_1(self,order):
+
+        ##operador troca##
 
         ii = np.random.randint(0,len(order)-1)
         jj = np.random.randint(0,len(order)-1)
@@ -536,6 +549,8 @@ class SA():
 
     def N_2(self,order):
 
+        ##operador inserção##
+
         ii = np.random.randint(0,len(order)-1)
         jj = np.random.randint(0,len(order)-1)
         cont=5
@@ -543,11 +558,39 @@ class SA():
             ii = np.random.randint(0,len(order)-1)
             jj = np.random.randint(0,len(order)-1)
             cont=cont-1
-        #print(ii,jj)
+        
         aux = order[ii]
-        order.pop(order[ii])
-        order.insert(order[jj],aux)
-    
+        order.pop(ii)
+        order.insert(jj,aux)
+
+    def N_3(self,lista):
+
+        ##operador permutação##
+
+        i = np.random.randint(0,len(lista)-1)
+        j = np.random.randint(0,len(lista)-1)
+        cont=5
+        while i==j and cont >=0:
+            i = np.random.randint(0,len(lista)-1)
+            j = np.random.randint(0,len(lista)-1)
+            cont=cont-1
+        sublista = lista[i:j]
+        np.random.shuffle(sublista)
+        lista[i:j] = sublista
+
+    def N_4(self,lista):
+
+        ##operador inversão##
+
+        i = np.random.randint(0,len(lista)-1)
+        j = np.random.randint(0,len(lista)-1)
+        cont=5
+        while i==j and cont >=0:
+            i = np.random.randint(0,len(lista)-1)
+            j = np.random.randint(0,len(lista)-1)
+            cont=cont-1
+        lista[i:j] = reversed(lista[i:j])      
+
     def save_xls(self):
         produtos=np.arange(1,len(self.Xb)+1)
         print(len(produtos))
