@@ -430,7 +430,7 @@ class SA():
                 #if
        
     def SA2(self,arm,ord):
-        alpha =0.90
+        alpha =0.95
         it = 1000
         Tf = 1
         T0 = 10
