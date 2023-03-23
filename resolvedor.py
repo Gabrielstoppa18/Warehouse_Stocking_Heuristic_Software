@@ -5,9 +5,12 @@ import numpy as np
 import copy
 import sys
 from pickle import LIST
-from pandas import DataFrame as pd
+from pandas import DataFrame as df
 from pandas import ExcelWriter as ex
-
+import pandas as pd
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+np.set_printoptions(threshold=np.inf)
 
 class Pos():
     def __init__(self):
@@ -315,9 +318,31 @@ class SA():
 
         return sum(objetivo)
 
-    
+    def ml(self,trim):
+
+        dados = pd.read_csv('dados.csv')
+        tri=str(trim) #1,2 ou 3
+
+        # Dividir dados em conjunto de treinamento e teste
+        x = dados.drop(['Produtos', tri], axis=1)
+        y = dados[tri]
+        x_treino, x_teste, y_treino, y_teste = train_test_split(x, y, test_size=0.2)
+
+        # Treinar modelo
+        modelo = RandomForestRegressor(n_estimators=100, random_state=0)
+        modelo.fit(x_treino, y_treino)
+
+        # Avaliar modelo
+        y_pred = modelo.predict(x_teste)
+        erro = abs(y_pred - y_teste)
+        print('Erro médio:', round(erro.mean(), 2))
+
+        # Fazer previsões
+        y_novo = modelo.predict(x)
+        print('Produtos mais vendidos:', y_novo)
+
     def sa(self):
-                
+        self.ml(1)    
         self.alpha =0.95
         self.it = 10
         self.Tf = 1
@@ -608,8 +633,8 @@ class SA():
             a,b,c=self.orderB[i]
             produto_o.append(a)
             ordem=b
-        df1 = pd({'Products': produto_o,'Order': ordem})
-        df2 = pd({'Products': produtos,'Nodes': nos,'Shelves': prateleira})
+        df1 = df({'Products': produto_o,'Order': ordem})
+        df2 = df({'Products': produtos,'Nodes': nos,'Shelves': prateleira})
 
         # Usando o ExcelWriter, cria um doc .xlsx, usando engine='xlsxwriter'
         #writer = ex('Solution.xlsx')
