@@ -39,6 +39,8 @@ class SA():
         self.pos_ordem=[]
         self.maxcar=2
         self.close=[]
+        self.sclose=[]
+        self.prod_score=[]
     class Carro:
         def __init__(self):
             self.capcesta=0
@@ -72,31 +74,48 @@ class SA():
             self.arm.openFile()
 
     def solInicial(self):
-        self.SOL=[]
+        for i in range(self.arm.totalpro):
+            self.SOL.append(0)
         self.order=[]
         self.pos_ordem=[]
+        self.sclose=[]
 
         self.car.capcesta=self.arm.capcesta
         self.car.numcestas=self.arm.numcestas
         for i in range(self.arm.totalord):
             self.pos_ordem.append(-1)
         for i in range(self.car.numcestas):
-                self.car.carrinho.append(self.cestas)
-        self.SOL=[]
+            self.car.carrinho.append(self.cestas)
+        
+        '''
+        
+        np.random.shuffle(self.randomid1)
+        for i in range(self.arm.totalpro):
+            self.SOL.append(self.randomid1[i])
+        
+        '''
+        self.order=copy.deepcopy(self.arm.ordens)
 
         self.randomid1 = []
         for j in range(len(self.arm.loc)):
             for k in range(len(self.arm.loc[j])):
                 self.randomid1.append((j+1,k+1))
-        np.random.shuffle(self.randomid1)
-        for i in range(self.arm.totalpro):
-            self.SOL.append(self.randomid1[i])
-        self.order=copy.deepcopy(self.arm.ordens)
 
-        for i in range(1,self.arm.numProdVertices):
+        for i in range(1,self.arm.numProdVertices+1):
             self.close.append((self.arm.dist[0][i],i))
-        #print(sorted(self.close))
-       
+            self.sclose=sorted(self.close,key=lambda x: x[0])
+        
+        self.n_close=[]
+        for i in range(len(self.sclose)):
+            a,b=self.sclose[i]
+            for j in range(1,7):
+                self.n_close.append((b,j))
+
+        for i in range(self.arm.totalpro):
+            a,b=self.prod_score[i]
+            self.SOL[a-1]=self.n_close[i]
+            
+
     def imprimeSol(self,SOL,order):
 
 
@@ -319,7 +338,7 @@ class SA():
         return sum(objetivo)
 
     def ml(self,trim):
-
+        #self.prod_score=[]
         dados = pd.read_csv('dados.csv')
         tri=str(trim) #1,2 ou 3
 
@@ -339,10 +358,13 @@ class SA():
 
         # Fazer previsões
         y_novo = modelo.predict(x)
-        print('Produtos mais vendidos:', y_novo)
+        for i in range(len(y_novo)):
+            self.prod_score.append((i+1,y_novo[i]))
+        self.prod_score=sorted(self.prod_score, key=lambda x: x[1],reverse=True)
+        #print('Produtos mais vendidos:', y_novo)
 
     def sa(self):
-        self.ml(1)    
+        self.ml(2)    
         self.alpha =0.95
         self.it = 10
         self.Tf = 1
