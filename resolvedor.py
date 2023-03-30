@@ -10,6 +10,7 @@ from pandas import ExcelWriter as ex
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+
 np.set_printoptions(threshold=np.inf)
 
 class Pos():
@@ -72,8 +73,32 @@ class SA():
             self.arm.leitura(arq1,arq2,arq3)
         except:
             self.arm.openFile()
-
+    def clear(self):
+        self.cestas= self.Cesta()
+        self.car=self.Carro()
+        self.x=0
+        self.y=0
+        self.x0=0
+        self.y0=0
+        #self.alpha = 0.95
+        #self.iter=10
+        #self.Tf = 1.0
+        #self.T0 = 5.0
+        self.arm= entrada_o.Armazem()
+        #self.cel=[]
+        self.SOL=[]
+        self.Xb=[]
+        self.xb=[]
+        self.xxb = sys.maxsize
+        self.xy = [0,0]
+        self.order=[]
+        self.pos_ordem=[]
+        self.maxcar=2
+        self.close=[]
+        self.sclose=[]
+        self.prod_score=[]
     def solInicial(self):
+        #self.clear()
         for i in range(self.arm.totalpro):
             self.SOL.append(0)
         self.order=[]
@@ -226,46 +251,45 @@ class SA():
             prod_pos_atual=c
             order[l][0]=-1
             l+=1
-
-            '''if  len(self.car.carrinho[v].produtos) == self.car.capcesta:
-                if cesta_usada>=self.car.numcestas:
-                    pass
-                else:
-                    self.pos_ordem[s].append(cesta_usada)
-                    cesta_usada+=1 
-            if cesta_usada>=self.car.numcestas:
-                objt += self.arm.dist[a][0]
-                for i in range(len(self.car.carrinho)):
-                    self.car.carrinho[i].produtos=[]
-                objt += self.arm.dist[0][c]
-
-                self.car.carrinho[v].produtos.append(c)
-                for j in range(len(self.pos_ordem)):
-                    self.pos_ordem[j]=[]
-                cesta_usada=0
-                self.pos_ordem[s].append(cesta_usada)
-                cesta_usada+=1
-                capcar+=1
-                order.pop(l)  
-            else:
-                objt += self.arm.dist[a][c]
-                self.car.carrinho[v].produtos.append(c)
-                capcar+=1
-                order.pop(l)
-                if  len(self.car.carrinho[v].produtos) == self.car.capcesta:
-                    if cesta_usada>=self.car.numcestas:
-                        pass
-                    else:
-                        self.pos_ordem[s].append(cesta_usada)
-                        cesta_usada+=1 '''
                 
         #Retorna para a entrada
         
         return objt
 
+    def objetivo3(self,SOL,ordem):
+        order=copy.deepcopy(ordem)
+        objetivo=[]
+        objt=0.0
+
+        #Coleta primeiro produto
+        i,j,e=order[0]
+        a,b=SOL[i-1]
+        objt += self.arm.dist[0][a]
+        l=0
+
+        while len(order)!=1:
+
+            o,p,u=order[l]
+            a,b=self.SOL[o-1]
+            k,s,v=order[l+1]
+            c,d=SOL[k-1]
+            objt += self.arm.dist[a][c]
+            order.pop(l)
+
+        #Retorna para a entrada
+        i=len(order)-1
+        g,h,v=order[i]
+        a,b=SOL[h-1]
+            
+        objt += self.arm.dist[a][0]    
+        objetivo.append(objt)
+
+        return sum(objetivo)
+
 
     def objetivo(self,SOL,ordem):
         order=copy.deepcopy(ordem)
+        
         '''
         print("Ordem antes",order)
         
@@ -354,7 +378,7 @@ class SA():
         # Avaliar modelo
         y_pred = modelo.predict(x_teste)
         erro = abs(y_pred - y_teste)
-        print('Erro médio:', round(erro.mean(), 2))
+        #print('Erro médio:', round(erro.mean(), 2))
 
         # Fazer previsões
         y_novo = modelo.predict(x)
@@ -364,7 +388,8 @@ class SA():
         #print('Produtos mais vendidos:', y_novo)
 
     def sa(self):
-        self.ml(2)    
+       
+        self.ml(1)    
         self.alpha =0.95
         self.it = 10
         self.Tf = 1
@@ -377,7 +402,7 @@ class SA():
         self.pos_ordem=[]
         self.solInicial()
         #self.imprimeSol(self.SOL,self.order)
-        valor=self.objetivo2(self.SOL,self.order)
+        valor=self.objetivo3(self.SOL,self.order)
  
         self.organizar(self.order)
 
@@ -390,6 +415,7 @@ class SA():
 
         self.T = self.T0
         xx,ord = self.SA2(self.SOL,self.order)
+        self.xxb=xx
         '''while self.T >= self.Tf:
             for i in range(self.it):
                 #print('-----------------ITERAÇÃO------------------')
@@ -475,14 +501,16 @@ class SA():
             for i in range(len(self.order)):
                 k,j,e=self.order[i] 
                 #if
-       
+
     def SA2(self,arm,ord):
+        self.tamam=len(ord)
         alpha =0.95
         it = 1000
         Tf = 1
-        T0 = 10
+        T0 = 5
         T=T0
-
+        self.armazem=arm
+        self.ordemi=ord
         ####Contando os operadores####
         n1=0
         n2=0
@@ -500,10 +528,12 @@ class SA():
         dict_Q={}
         xxb=sys.maxsize
         while T >= Tf:
+            
+            
             for i in range(it):
                 reward=0
                 epsilon=epsilon*epsilon_decay#decaimento
-                xx = self.objetivo2(arm,ord)
+                xx = self.objetivo3(arm,ord)
                 y = copy.deepcopy(ord)
                 ys=str(y)
                 if np.random.rand()<epsilon:
@@ -540,7 +570,7 @@ class SA():
                     n4+=1
 
                 self.organizar(y)
-                yy = self.objetivo2(arm,y)
+                yy = self.objetivo3(arm,y)
                 #print('yy: ',yy)
                 delta = yy-xx
                 if delta <= 0:
@@ -564,16 +594,17 @@ class SA():
                 #######RL######
                 #Q.append(y_current),rd,reward
                 dict_Q[ys]=[rd,reward]
+            
             T=alpha*T
             #print("-Temperatura Atual:",self.T)
         '''
         print("-Solução do SA2:")
         
-        '''
+        
         print("N1: ",n1)
         print("N2: ",n2)
         print("N3: ",n3)
-        print("N4: ",n4)
+        print("N4: ",n4)'''
         #self.imprimeSol(arm,xb)
         print("-Custo solução SA2:",xxb)
         
@@ -582,12 +613,12 @@ class SA():
 
         ##operador troca##
 
-        ii = np.random.randint(0,len(order)-1)
-        jj = np.random.randint(0,len(order)-1)
+        ii = np.random.randint(0,self.tamam-1)
+        jj = np.random.randint(0,self.tamam-1)
         cont=5
         while ii==jj and cont >=0:
-            ii = np.random.randint(0,len(order)-1)
-            jj = np.random.randint(0,len(order)-1)
+            ii = np.random.randint(0,self.tamam-1)
+            jj = np.random.randint(0,self.tamam-1)
             cont=cont-1
         #print(ii,jj)
         aux = order[ii]
@@ -598,12 +629,12 @@ class SA():
 
         ##operador inserção##
 
-        ii = np.random.randint(0,len(order)-1)
-        jj = np.random.randint(0,len(order)-1)
+        ii = np.random.randint(0,self.tamam-1)
+        jj = np.random.randint(0,self.tamam-1)
         cont=5
         while ii==jj and cont >=0:
-            ii = np.random.randint(0,len(order)-1)
-            jj = np.random.randint(0,len(order)-1)
+            ii = np.random.randint(0,self.tamam-1)
+            jj = np.random.randint(0,self.tamam-1)
             cont=cont-1
         
         aux = order[ii]
@@ -614,12 +645,12 @@ class SA():
 
         ##operador permutação##
 
-        i = np.random.randint(0,len(lista)-1)
-        j = np.random.randint(0,len(lista)-1)
+        i = np.random.randint(0,self.tamam-1)
+        j = np.random.randint(0,self.tamam-1)
         cont=5
         while i==j and cont >=0:
-            i = np.random.randint(0,len(lista)-1)
-            j = np.random.randint(0,len(lista)-1)
+            i = np.random.randint(0,self.tamam-1)
+            j = np.random.randint(0,self.tamam-1)
             cont=cont-1
         sublista = lista[i:j]
         np.random.shuffle(sublista)
@@ -629,12 +660,12 @@ class SA():
 
         ##operador inversão##
 
-        i = np.random.randint(0,len(lista)-1)
-        j = np.random.randint(0,len(lista)-1)
+        i = np.random.randint(0,self.tamam-1)
+        j = np.random.randint(0,self.tamam-1)
         cont=5
         while i==j and cont >=0:
-            i = np.random.randint(0,len(lista)-1)
-            j = np.random.randint(0,len(lista)-1)
+            i = np.random.randint(0,self.tamam-1)
+            j = np.random.randint(0,self.tamam-1)
             cont=cont-1
         lista[i:j] = reversed(lista[i:j])      
 

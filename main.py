@@ -4,7 +4,7 @@ alg= resolvedor.SA()
 
 layout = 'Layout.txt'
 products = 'Products.txt'
-order='Instancias\instances_d20_ord30.txt'
+order='Instancias/instances_d5_ord30.txt'
 
 
 file = open(layout, 'r')

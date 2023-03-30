@@ -1,9 +1,10 @@
 import resolvedor
+import numpy as np
 import time
 
 alg= resolvedor.SA()
 
-
+it=1
 tempot = 0
 custot = 0
 custo = []
@@ -24,29 +25,28 @@ caminho = 'Instancias'
 file = '/instances_d5_ord'
 inst = []
 for k in range(5,31):
-    print(k)
+    
     inst.append(caminho+file+str(k)+'.txt')
 for i in range(len(inst)):
     tempot = 0
     custot = 0
     custo = []
-    custob = 100000
+    custob = 0
     alg.arm.clear()
+    alg.clear()
     file = open(inst[i], 'r')
     arq = file.read().splitlines() 
     alg.arm.leitura(arq2,arq3,arq)
-    print(alg.arm.ordens)
-    for j in range(5):
+    
+    for j in range(it):
         timer_inicio = time.perf_counter()
         custo.append(alg.sa())
         timer_fim = time.perf_counter()
         tempoTotal = timer_fim-timer_inicio
-        tempot+=tempoTotal
-        custot+=custo[j]
-        if custo[j]<custob:
-            custob = custo[j]
+        tempot+=tempoTotal        
         print(j)
-    tempom=tempot/5
-    custom = custot/5
+    custob=min(custo)
+    tempom=tempot/it
+    custom = np.mean(custo)
     arquivo.write(inst[i]+"&"+str(tempom)+"&"+str(custom)+"&"+str(custob)+"\n")
 arquivo.close()
