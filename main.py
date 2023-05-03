@@ -1,10 +1,9 @@
-import resolvedor
-
-alg= resolvedor.SA()
+import resolvedor4
+alg= resolvedor4.SA()
 
 layout = 'Layout.txt'
 products = 'Products.txt'
-order='Instancias/instances_d5_ord30.txt'
+order='Instancias/instances_d5_ord5.txt'
 
 
 file = open(layout, 'r')

@@ -1,0 +1,456 @@
+Custo inicial: 4897.910000000001
+Tempo de execução SA2: 38.1255 segundos
+-Custo solução SA2: 2105.13
+Tempo de execução SA2: 38.0516 segundos
+-Custo solução SA2: 1729.41
+Tempo de execução SA2: 37.9901 segundos
+-Custo solução SA2: 1713.41
+Tempo de execução SA2: 38.0333 segundos
+-Custo solução SA2: 1782.9399999999998
+Tempo de execução SA2: 38.0734 segundos
+-Custo solução SA2: 2347.29
+Tempo de execução SA2: 38.1063 segundos
+-Custo solução SA2: 2332.85
+Tempo de execução SA2: 38.0353 segundos
+-Custo solução SA2: 1611.27
+Tempo de execução SA2: 38.0479 segundos
+-Custo solução SA2: 1581.27
+Tempo de execução SA2: 38.0995 segundos
+-Custo solução SA2: 2726.6800000000003
+Tempo de execução SA2: 38.1094 segundos
+-Custo solução SA2: 2163.04
+Tempo de execução SA2: 38.0914 segundos
+-Custo solução SA2: 1525.27
+Tempo de execução SA2: 38.1140 segundos
+-Custo solução SA2: 2458.98
+Tempo de execução SA2: 38.0606 segundos
+-Custo solução SA2: 1503.27
+Tempo de execução SA2: 38.0910 segundos
+-Custo solução SA2: 2017.0099999999998
+Tempo de execução SA2: 38.1835 segundos
+-Custo solução SA2: 2531.79
+Tempo de execução SA2: 38.0943 segundos
+-Custo solução SA2: 2389.3199999999997
+Tempo de execução SA2: 38.0332 segundos
+-Custo solução SA2: 1451.5500000000002
+Tempo de execução SA2: 38.0449 segundos
+-Custo solução SA2: 2131.6400000000003
+Tempo de execução SA2: 38.0882 segundos
+-Custo solução SA2: 1445.5500000000002
+Tempo de execução SA2: 37.9900 segundos
+-Custo solução SA2: 1445.5500000000002
+Tempo de execução SA2: 37.9577 segundos
+-Custo solução SA2: 1489.55
+Tempo de execução SA2: 37.9049 segundos
+-Custo solução SA2: 1445.5500000000002
+Tempo de execução SA2: 37.9093 segundos
+-Custo solução SA2: 1425.5500000000002
+Tempo de execução SA2: 38.0128 segundos
+-Custo solução SA2: 2355.21
+Tempo de execução SA2: 38.0038 segundos
+-Custo solução SA2: 1953.0600000000002
+Tempo de execução SA2: 38.0195 segundos
+-Custo solução SA2: 2507.23
+Tempo de execução SA2: 38.0105 segundos
+-Custo solução SA2: 1523.5500000000002
+Tempo de execução SA2: 37.9675 segundos
+-Custo solução SA2: 1425.5500000000002
+Tempo de execução SA2: 38.1423 segundos
+-Custo solução SA2: 2584.6800000000003
+Tempo de execução SA2: 38.0608 segundos
+-Custo solução SA2: 2144.79
+Tempo de execução SA2: 37.9705 segundos
+-Custo solução SA2: 1557.64
+Tempo de execução SA2: 38.0333 segundos
+-Custo solução SA2: 1549.5500000000002
+Tempo de execução SA2: 38.0661 segundos
+-Custo solução SA2: 1764.07
+Tempo de execução SA2: 38.0404 segundos
+-Custo solução SA2: 1663.46
+Tempo de execução SA2: 37.9857 segundos
+-Custo solução SA2: 1657.51
+Tempo de execução SA2: 38.0858 segundos
+-Custo solução SA2: 2239.23
+Tempo de execução SA2: 38.0385 segundos
+-Custo solução SA2: 1874.07
+Tempo de execução SA2: 37.9932 segundos
+-Custo solução SA2: 2149.1800000000003
+Tempo de execução SA2: 37.8691 segundos
+-Custo solução SA2: 1791.4199999999998
+Tempo de execução SA2: 37.9681 segundos
+-Custo solução SA2: 1623.5500000000002
+Tempo de execução SA2: 37.8563 segundos
+-Custo solução SA2: 1825.13
+Tempo de execução SA2: 37.9483 segundos
+-Custo solução SA2: 1673.78
+Tempo de execução SA2: 37.9188 segundos
+-Custo solução SA2: 1659.0800000000002
+Tempo de execução SA2: 37.9453 segundos
+-Custo solução SA2: 2417.04
+Tempo de execução SA2: 37.8931 segundos
+-Custo solução SA2: 1563.5500000000002
+Tempo de execução SA2: 37.8188 segundos
+-Custo solução SA2: 1525.32
+Tempo de execução SA2: 37.9221 segundos
+-Custo solução SA2: 2043.0800000000002
+Tempo de execução SA2: 38.1196 segundos
+-Custo solução SA2: 2775.79
+Tempo de execução SA2: 37.9149 segundos
+-Custo solução SA2: 2724.0699999999997
+Tempo de execução SA2: 38.0106 segundos
+-Custo solução SA2: 2577.1200000000003
+Tempo de execução SA2: 37.9582 segundos
+-Custo solução SA2: 1561.3100000000002
+Tempo de execução SA2: 37.7664 segundos
+-Custo solução SA2: 1687.4600000000003
+Tempo de execução SA2: 37.9508 segundos
+-Custo solução SA2: 1531.2700000000002
+Tempo de execução SA2: 38.0938 segundos
+-Custo solução SA2: 2423.51
+Tempo de execução SA2: 38.0079 segundos
+-Custo solução SA2: 1597.5500000000002
+Tempo de execução SA2: 37.9573 segundos
+-Custo solução SA2: 2147.55
+Tempo de execução SA2: 37.9335 segundos
+-Custo solução SA2: 2105.13
+Tempo de execução SA2: 38.0630 segundos
+-Custo solução SA2: 1652.85
+Tempo de execução SA2: 37.9530 segundos
+-Custo solução SA2: 1918.98
+Tempo de execução SA2: 38.0153 segundos
+-Custo solução SA2: 1599.46
+Tempo de execução SA2: 38.0113 segundos
+-Custo solução SA2: 1867.98
+Tempo de execução SA2: 37.9406 segundos
+-Custo solução SA2: 1581.5500000000002
+Tempo de execução SA2: 37.9036 segundos
+-Custo solução SA2: 1729.6
+Tempo de execução SA2: 38.0963 segundos
+-Custo solução SA2: 2347.31
+Tempo de execução SA2: 37.9913 segundos
+-Custo solução SA2: 1693.48
+Tempo de execução SA2: 37.9019 segundos
+-Custo solução SA2: 2341.5
+Tempo de execução SA2: 38.0783 segundos
+-Custo solução SA2: 1653.5
+Tempo de execução SA2: 38.0323 segundos
+-Custo solução SA2: 1719.0100000000002
+Tempo de execução SA2: 37.9809 segundos
+-Custo solução SA2: 2208.67
+Tempo de execução SA2: 37.9806 segundos
+-Custo solução SA2: 2189.1800000000003
+Tempo de execução SA2: 37.9678 segundos
+-Custo solução SA2: 1593.5500000000002
+Tempo de execução SA2: 37.9501 segundos
+-Custo solução SA2: 1441.5500000000002
+Tempo de execução SA2: 38.1119 segundos
+-Custo solução SA2: 2397.3
+Tempo de execução SA2: 38.0309 segundos
+-Custo solução SA2: 2017.3199999999997
+Tempo de execução SA2: 38.0144 segundos
+-Custo solução SA2: 2231.46
+Tempo de execução SA2: 38.1035 segundos
+-Custo solução SA2: 2189.3900000000003
+Tempo de execução SA2: 38.0245 segundos
+-Custo solução SA2: 1709.1200000000003
+Tempo de execução SA2: 37.9651 segundos
+-Custo solução SA2: 2173.51
+Tempo de execução SA2: 37.9626 segundos
+-Custo solução SA2: 1571.6
+Tempo de execução SA2: 38.0900 segundos
+-Custo solução SA2: 2409.69
+Tempo de execução SA2: 38.0051 segundos
+-Custo solução SA2: 2400.76
+Tempo de execução SA2: 37.9924 segundos
+-Custo solução SA2: 2251.45
+Tempo de execução SA2: 38.0323 segundos
+-Custo solução SA2: 1611.73
+Tempo de execução SA2: 37.9407 segundos
+-Custo solução SA2: 1643.6000000000001
+Tempo de execução SA2: 38.0280 segundos
+-Custo solução SA2: 1971.1100000000001
+Tempo de execução SA2: 38.1206 segundos
+-Custo solução SA2: 2673.38
+Tempo de execução SA2: 38.0409 segundos
+-Custo solução SA2: 1681.79
+Tempo de execução SA2: 38.0351 segundos
+-Custo solução SA2: 1985.69
+Tempo de execução SA2: 38.0838 segundos
+-Custo solução SA2: 1689.73
+Tempo de execução SA2: 37.9710 segundos
+-Custo solução SA2: 2207.7
+Tempo de execução SA2: 37.9964 segundos
+-Custo solução SA2: 1561.8899999999999
+Tempo de execução SA2: 38.0423 segundos
+-Custo solução SA2: 3364.37
+Tempo de execução SA2: 38.0081 segundos
+-Custo solução SA2: 2223.7
+Tempo de execução SA2: 38.1199 segundos
+-Custo solução SA2: 2434.0699999999997
+Tempo de execução SA2: 38.0204 segundos
+-Custo solução SA2: 1787.5
+Tempo de execução SA2: 38.0197 segundos
+-Custo solução SA2: 2213.13
+Tempo de execução SA2: 38.1635 segundos
+-Custo solução SA2: 2601.6899999999996
+Tempo de execução SA2: 38.0407 segundos
+-Custo solução SA2: 2655.27
+Tempo de execução SA2: 37.9610 segundos
+-Custo solução SA2: 2881.2300000000005
+Tempo de execução SA2: 37.9802 segundos
+-Custo solução SA2: 2215.5099999999998
+Tempo de execução SA2: 38.1654 segundos
+-Custo solução SA2: 2047.36
+Tempo de execução SA2: 38.0742 segundos
+-Custo solução SA2: 2469.47
+Tempo de execução SA2: 37.9396 segundos
+-Custo solução SA2: 1669.5500000000002
+Tempo de execução SA2: 38.0167 segundos
+-Custo solução SA2: 1869.51
+Tempo de execução SA2: 38.0622 segundos
+-Custo solução SA2: 1661.2100000000003
+Tempo de execução SA2: 37.9379 segundos
+-Custo solução SA2: 1711.69
+Tempo de execução SA2: 38.0175 segundos
+-Custo solução SA2: 1539.64
+Tempo de execução SA2: 38.0721 segundos
+-Custo solução SA2: 1995.7899999999997
+Tempo de execução SA2: 37.8836 segundos
+-Custo solução SA2: 1751.5
+Tempo de execução SA2: 38.1314 segundos
+-Custo solução SA2: 2701.7800000000007
+Tempo de execução SA2: 38.0723 segundos
+-Custo solução SA2: 2787.5000000000005
+Tempo de execução SA2: 38.0632 segundos
+-Custo solução SA2: 2257.46
+Tempo de execução SA2: 38.0990 segundos
+-Custo solução SA2: 2735.6
+Tempo de execução SA2: 38.0210 segundos
+-Custo solução SA2: 2672.8900000000003
+Tempo de execução SA2: 38.1162 segundos
+-Custo solução SA2: 2574.8199999999997
+Tempo de execução SA2: 37.9844 segundos
+-Custo solução SA2: 1593.5500000000002
+Tempo de execução SA2: 38.0693 segundos
+-Custo solução SA2: 1743.4600000000003
+Tempo de execução SA2: 38.0149 segundos
+-Custo solução SA2: 1601.27
+Tempo de execução SA2: 38.0860 segundos
+-Custo solução SA2: 2615.5099999999998
+Tempo de execução SA2: 38.0627 segundos
+-Custo solução SA2: 1705.1700000000003
+Tempo de execução SA2: 37.9804 segundos
+-Custo solução SA2: 1761.17
+Tempo de execução SA2: 38.1013 segundos
+-Custo solução SA2: 2151.31
+Tempo de execução SA2: 37.9893 segundos
+-Custo solução SA2: 2537.8900000000003
+Tempo de execução SA2: 38.0609 segundos
+-Custo solução SA2: 2657.4
+Tempo de execução SA2: 38.1026 segundos
+-Custo solução SA2: 2373.7
+Tempo de execução SA2: 38.1069 segundos
+-Custo solução SA2: 2231.08
+Tempo de execução SA2: 37.9180 segundos
+-Custo solução SA2: 1609.6
+Tempo de execução SA2: 38.0863 segundos
+-Custo solução SA2: 1535.5500000000002
+Tempo de execução SA2: 37.9704 segundos
+-Custo solução SA2: 1831.1700000000003
+Tempo de execução SA2: 38.0734 segundos
+-Custo solução SA2: 1567.89
+Tempo de execução SA2: 38.0217 segundos
+-Custo solução SA2: 1667.5500000000002
+Tempo de execução SA2: 38.0967 segundos
+-Custo solução SA2: 2263.15
+Tempo de execução SA2: 38.1533 segundos
+-Custo solução SA2: 2181.55
+Tempo de execução SA2: 38.0408 segundos
+-Custo solução SA2: 1715.3600000000001
+Tempo de execução SA2: 38.0317 segundos
+-Custo solução SA2: 1629.5100000000002
+Tempo de execução SA2: 38.0173 segundos
+-Custo solução SA2: 2429.41
+Tempo de execução SA2: 37.9655 segundos
+-Custo solução SA2: 1753.1000000000001
+Tempo de execução SA2: 38.0979 segundos
+-Custo solução SA2: 2429.26
+Tempo de execução SA2: 38.0360 segundos
+-Custo solução SA2: 1507.55
+Tempo de execução SA2: 38.0628 segundos
+-Custo solução SA2: 1603.5500000000002
+Tempo de execução SA2: 38.0831 segundos
+-Custo solução SA2: 2761.3100000000004
+Tempo de execução SA2: 37.9905 segundos
+-Custo solução SA2: 2833.13
+Tempo de execução SA2: 38.0667 segundos
+-Custo solução SA2: 1695.64
+Tempo de execução SA2: 38.0121 segundos
+-Custo solução SA2: 1661.64
+Tempo de execução SA2: 38.0915 segundos
+-Custo solução SA2: 1793.04
+Tempo de execução SA2: 38.0759 segundos
+-Custo solução SA2: 2377.73
+Tempo de execução SA2: 38.0615 segundos
+-Custo solução SA2: 2755.36
+Tempo de execução SA2: 38.0072 segundos
+-Custo solução SA2: 1687.3700000000001
+Tempo de execução SA2: 37.9725 segundos
+-Custo solução SA2: 1729.6399999999999
+Tempo de execução SA2: 38.0659 segundos
+-Custo solução SA2: 2021.0500000000002
+Tempo de execução SA2: 38.0008 segundos
+-Custo solução SA2: 2229.98
+Tempo de execução SA2: 37.9948 segundos
+-Custo solução SA2: 1749.41
+Tempo de execução SA2: 37.8492 segundos
+-Custo solução SA2: 1715.64
+Tempo de execução SA2: 37.9396 segundos
+-Custo solução SA2: 1833.4600000000003
+Tempo de execução SA2: 38.1011 segundos
+-Custo solução SA2: 2136.6400000000003
+Tempo de execução SA2: 38.0510 segundos
+-Custo solução SA2: 2361.08
+Tempo de execução SA2: 37.9434 segundos
+-Custo solução SA2: 1889.3600000000001
+Tempo de execução SA2: 38.0988 segundos
+-Custo solução SA2: 2811.02
+Tempo de execução SA2: 38.0784 segundos
+-Custo solução SA2: 2344.8900000000003
+Tempo de execução SA2: 38.0100 segundos
+-Custo solução SA2: 1613.3600000000001
+Tempo de execução SA2: 38.0251 segundos
+-Custo solução SA2: 1599.5500000000002
+Tempo de execução SA2: 38.0983 segundos
+-Custo solução SA2: 2421.6000000000004
+Tempo de execução SA2: 37.9980 segundos
+-Custo solução SA2: 1687.64
+Tempo de execução SA2: 37.9072 segundos
+-Custo solução SA2: 1708.67
+Tempo de execução SA2: 37.9469 segundos
+-Custo solução SA2: 1690.89
+Tempo de execução SA2: 37.9406 segundos
+-Custo solução SA2: 1557.55
+Tempo de execução SA2: 38.0699 segundos
+-Custo solução SA2: 1949.08
+Tempo de execução SA2: 37.9420 segundos
+-Custo solução SA2: 1641.64
+Tempo de execução SA2: 37.8961 segundos
+-Custo solução SA2: 2007.79
+Tempo de execução SA2: 37.9926 segundos
+-Custo solução SA2: 1927.98
+Tempo de execução SA2: 37.8761 segundos
+-Custo solução SA2: 1695.19
+Tempo de execução SA2: 37.9923 segundos
+-Custo solução SA2: 1571.5500000000002
+Tempo de execução SA2: 37.9414 segundos
+-Custo solução SA2: 1467.5500000000002
+Tempo de execução SA2: 37.9276 segundos
+-Custo solução SA2: 1905.18
+Tempo de execução SA2: 38.0681 segundos
+-Custo solução SA2: 1677.98
+Tempo de execução SA2: 37.9663 segundos
+-Custo solução SA2: 1491.46
+Tempo de execução SA2: 37.8493 segundos
+-Custo solução SA2: 1727.89
+Tempo de execução SA2: 38.1648 segundos
+-Custo solução SA2: 2353.69
+Tempo de execução SA2: 38.0713 segundos
+-Custo solução SA2: 1593.52
+Tempo de execução SA2: 38.0099 segundos
+-Custo solução SA2: 1653.64
+Tempo de execução SA2: 37.8508 segundos
+-Custo solução SA2: 1725.51
+Tempo de execução SA2: 38.0851 segundos
+-Custo solução SA2: 2691.2900000000004
+Tempo de execução SA2: 37.9802 segundos
+-Custo solução SA2: 1651.2700000000002
+Tempo de execução SA2: 37.9173 segundos
+-Custo solução SA2: 1537.5500000000002
+Tempo de execução SA2: 38.0357 segundos
+-Custo solução SA2: 2068.88
+Tempo de execução SA2: 37.9225 segundos
+-Custo solução SA2: 2245.3
+Tempo de execução SA2: 37.9806 segundos
+-Custo solução SA2: 1495.5500000000002
+Tempo de execução SA2: 38.0306 segundos
+-Custo solução SA2: 1805.64
+Tempo de execução SA2: 38.0128 segundos
+-Custo solução SA2: 1663.6
+Tempo de execução SA2: 38.1202 segundos
+-Custo solução SA2: 2524.25
+Tempo de execução SA2: 37.9959 segundos
+-Custo solução SA2: 1591.1200000000003
+Tempo de execução SA2: 37.9579 segundos
+-Custo solução SA2: 1683.51
+Tempo de execução SA2: 38.1607 segundos
+-Custo solução SA2: 2007.2199999999998
+Tempo de execução SA2: 38.2138 segundos
+-Custo solução SA2: 2513.4199999999996
+Tempo de execução SA2: 37.9540 segundos
+-Custo solução SA2: 1551.5500000000002
+Tempo de execução SA2: 38.0383 segundos
+-Custo solução SA2: 2015.41
+Tempo de execução SA2: 37.9535 segundos
+-Custo solução SA2: 1919.2700000000002
+Tempo de execução SA2: 37.9945 segundos
+-Custo solução SA2: 1927.42
+Tempo de execução SA2: 38.0202 segundos
+-Custo solução SA2: 2128.0699999999997
+Tempo de execução SA2: 38.0637 segundos
+-Custo solução SA2: 2641.2200000000003
+Tempo de execução SA2: 38.0395 segundos
+-Custo solução SA2: 2351.51
+Tempo de execução SA2: 37.9991 segundos
+-Custo solução SA2: 1609.64
+Tempo de execução SA2: 38.1434 segundos
+-Custo solução SA2: 2835.6099999999997
+Tempo de execução SA2: 38.0821 segundos
+-Custo solução SA2: 2340.88
+Tempo de execução SA2: 37.9594 segundos
+-Custo solução SA2: 1627.08
+Tempo de execução SA2: 37.9386 segundos
+-Custo solução SA2: 1577.14
+Tempo de execução SA2: 37.9448 segundos
+-Custo solução SA2: 1657.5500000000002
+Tempo de execução SA2: 38.1562 segundos
+-Custo solução SA2: 2461.88
+Tempo de execução SA2: 37.8746 segundos
+-Custo solução SA2: 1651.8899999999999
+Tempo de execução SA2: 37.9923 segundos
+-Custo solução SA2: 1699.3600000000001
+Tempo de execução SA2: 38.1482 segundos
+-Custo solução SA2: 2391.26
+Tempo de execução SA2: 38.0030 segundos
+-Custo solução SA2: 2699.61
+Tempo de execução SA2: 38.0302 segundos
+-Custo solução SA2: 2102.98
+Tempo de execução SA2: 38.1036 segundos
+-Custo solução SA2: 2309.7
+Tempo de execução SA2: 38.0334 segundos
+-Custo solução SA2: 2221.39
+Tempo de execução SA2: 37.9664 segundos
+-Custo solução SA2: 2261.55
+Tempo de execução SA2: 37.9954 segundos
+-Custo solução SA2: 1627.41
+Tempo de execução SA2: 37.9298 segundos
+-Custo solução SA2: 2414.6
+Tempo de execução SA2: 37.9301 segundos
+-Custo solução SA2: 1802.85
+Tempo de execução SA2: 38.0008 segundos
+-Custo solução SA2: 1593.78
+Tempo de execução SA2: 37.9911 segundos
+-Custo solução SA2: 1741.48
+Tempo de execução SA2: 37.9463 segundos
+-Custo solução SA2: 1740.99
+Tempo de execução SA2: 38.0616 segundos
+-Custo solução SA2: 2848.7
+Tempo de execução SA2: 37.9906 segundos
+-Custo solução SA2: 1683.3600000000001
+Tempo de execução SA2: 37.9667 segundos
+-Custo solução SA2: 2629.2200000000003
+Tempo de execução SA2: 37.9599 segundos
+-Custo solução SA2: 1740.83
+-Solução Final do Problema:
+-Custo Total da solução: 1425.5500000000002
+Tempo de execucao do SA: 8592.4423 segundos

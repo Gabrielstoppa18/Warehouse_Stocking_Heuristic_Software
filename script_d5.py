@@ -20,7 +20,7 @@ arq3 = file.read().splitlines()
 arquivo = open('instancias_d5.txt','w')
 arquivo.close()
 
-arquivo = open('instancias_d5.txt','a')
+arquivo = open('instancias_d5_resolvedor4.txt','a')
 caminho = 'Instancias'
 file = '/instances_d5_ord'
 inst = []

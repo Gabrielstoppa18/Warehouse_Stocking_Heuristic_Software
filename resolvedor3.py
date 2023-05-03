@@ -10,6 +10,11 @@ from pandas import ExcelWriter as ex
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
+from joblib import Parallel, delayed
+import time
+
+
+
 
 np.set_printoptions(threshold=np.inf)
 
@@ -236,6 +241,8 @@ class SA():
         '''
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
+
+        
         for i in range(len(self.pos_ordem)):
             self.pos_ordem[i]=[]
         objt=0.0
@@ -245,9 +252,14 @@ class SA():
         a,b=SOL[i-1]
         capcar=0
         objt += self.arm.dist[0][a]
+
+
+
         for k in range(e):
             self.pos_ordem[j].append((cesta_usada,0))
             cesta_usada+=1
+        
+
         id= self.cesta_vazia(self.pos_ordem[j])
         self.car.carrinho[id].produtos.append(i)
         capcar+=1
@@ -255,6 +267,7 @@ class SA():
 
         prod_pos_atual=a
         order[0][0]=-1
+        
         while True:
             if l >= len(order):
                 #a,b=self.SOL[prod_pos_atual-1]
@@ -312,8 +325,8 @@ class SA():
 
             prod_pos_atual=c
             order[l][0]=-1
-            l+=1
-                
+            l+=1  
+
         #Retorna para a entrada
         
         return objt
@@ -450,12 +463,12 @@ class SA():
         #print('Produtos mais vendidos:', y_novo)
 
     def sa(self):
-       
+        start_time = time.time()
         self.ml(1)    
         self.alpha =0.95
-        self.it = 10
+        self.it = 5
         self.Tf = 1
-        self.T0 = 5
+        self.T0 = 10
         #self.arquivos()
         del self.SOL
         del self.order
@@ -464,7 +477,7 @@ class SA():
         self.pos_ordem=[]
         self.solInicial()
         #self.imprimeSol(self.SOL,self.order)
-        valor=self.objetivo4(self.SOL,self.order)
+        valor=self.objetivo2(self.SOL,self.order)
  
         self.organizar(self.order)
 
@@ -476,24 +489,28 @@ class SA():
         self.xxb=valor
 
         self.T = self.T0
-        #xx,ord = self.SA2(self.SOL,self.order)
-        #self.xxb=xx
-        '''while self.T >= self.Tf:
+        xx,ord = self.SA2(self.SOL,self.order)
+        self.xxb=xx
+        while self.T >= self.Tf:
+
             for i in range(self.it):
                 #print('-----------------ITERAÇÃO------------------')
                 xx,ord = self.SA2(self.SOL,self.order)
                 Y = copy.deepcopy(self.SOL)
                 
-                rd = np.random.randint(0,1)
+                rd = np.random.randint(1,5)
                 # self.r = self.rd
-                if rd == 0:
+                if rd == 1:
                     self.N1(Y)
                    
-                elif rd == 1:
+                elif rd == 2:
                     self.N2(Y)
                    
-                elif rd == 2:
+                elif rd == 3:
                     self.N3(Y)
+               
+                elif rd == 4:
+                    self.N4(Y)
                   
                 yy,ordy = self.SA2(Y,ord)
                 delta = yy-xx
@@ -514,13 +531,16 @@ class SA():
                     self.Xb = copy.deepcopy(self.SOL)
                     self.orderB=copy.deepcopy(self.order)
                     self.xxb = xx
-            
+
             self.T=self.alpha*self.T
             #print("-Temperatura Atual:",self.T)
         print("-Solução Final do Problema:")
         #self.imprimeSol(self.Xb,self.orderB)
-        print("-Custo Total da solução:",self.xxb)'''
+        print("-Custo Total da solução:",self.xxb)
         #self.datatxt(self.xxb,self.Xb,self.orderB)
+        end_time = time.time()
+        time_seq = end_time - start_time
+        print(f"Tempo de execucao do SA: {time_seq:.4f} segundos")
         return self.xxb
 
     def N1(self, SOL):
@@ -558,13 +578,37 @@ class SA():
         
         #self.SOL[self.j][self.jc].quantidade = 0
         #print("N2")
-    def N3(self,SOL):
-        for s in range(len(SOL)):
-            for i in range(len(self.order)):
-                k,j,e=self.order[i] 
-                #if
+    def N3(self,lista):
+
+        ##operador permutação##
+
+        i = np.random.randint(0,self.tamam-1)
+        j = np.random.randint(0,self.tamam-1)
+        cont=5
+        while i==j and cont >=0:
+            i = np.random.randint(0,self.tamam-1)
+            j = np.random.randint(0,self.tamam-1)
+            cont=cont-1
+        sublista = lista[i:j]
+        np.random.shuffle(sublista)
+        lista[i:j] = sublista
+
+    def N4(self,lista):
+
+        ##operador inversão##
+
+        i = np.random.randint(0,self.tamam-1)
+        j = np.random.randint(0,self.tamam-1)
+        cont=5
+        while i==j and cont >=0:
+            i = np.random.randint(0,self.tamam-1)
+            j = np.random.randint(0,self.tamam-1)
+            cont=cont-1
+        lista[i:j] = reversed(lista[i:j])   
+    
 
     def SA2(self,arm,ord):
+        start_time = time.time()
         self.tamam=len(ord)
         alpha =0.95
         it = 1000
@@ -586,12 +630,18 @@ class SA():
         epsilon=0.1
         epsilon_decay=0.99#fator de decaimento
         #######################
-        
+        xb=[]
         dict_Q={}
         xxb=sys.maxsize
         while T >= Tf:
-            
-            
+
+            '''
+            total = [it]*4 # 4 elementos na lista para processar em paralelo
+            results = Parallel(n_jobs=4)(delayed(self.for_SA2)(its,T0,dict_Q,ord,arm) for its in total)
+            min_result = min(results, key=lambda x: x[0])
+            xxb=min_result[0]
+            xb=min_result[1]
+            '''
             for i in range(it):
                 reward=0
                 epsilon=epsilon*epsilon_decay#decaimento
@@ -656,7 +706,7 @@ class SA():
                 #######RL######
                 #Q.append(y_current),rd,reward
                 dict_Q[ys]=[rd,reward]
-            
+                #'''
             T=alpha*T
             #print("-Temperatura Atual:",self.T)
         '''
@@ -668,7 +718,12 @@ class SA():
         print("N3: ",n3)
         print("N4: ",n4)'''
         #self.imprimeSol(arm,xb)
+        
+        end_time = time.time()
+        time_seq = end_time - start_time
+        print(f"Tempo de execução SA2: {time_seq:.4f} segundos")
         print("-Custo solução SA2:",xxb)
+        
         
         return xxb,xb
     def N_1(self,order):
