@@ -210,7 +210,30 @@ class SA():
         self.prod_score=sorted(self.prod_score, key=lambda x: x[1],reverse=True)
         #print('Produtos mais vendidos:', y_novo)
   
-
+    def clear(self):
+        self.cestas= self.Cesta()
+        self.car=self.Carro()
+        self.x=0
+        self.y=0
+        self.x0=0
+        self.y0=0
+        #self.alpha = 0.95
+        #self.iter=10
+        #self.Tf = 1.0
+        #self.T0 = 5.0
+        self.arm= entrada_o.Armazem()
+        #self.cel=[]
+        self.SOL=[]
+        self.Xb=[]
+        self.xb=[]
+        self.xxb = sys.maxsize
+        self.xy = [0,0]
+        self.order=[]
+        self.pos_ordem=[]
+        self.maxcar=2
+        self.close=[]
+        self.sclose=[]
+        self.prod_score=[]
     def sa(self):
         start_time = time.time()
         self.ml(3)    
@@ -232,14 +255,17 @@ class SA():
         self.xxb = valor
     
         self.T = self.T0
-        xx, ord = self.SA2(self.SOL, self.order)
+        xx, ord, n= self.SA2(self.SOL, self.order)
         self.xxb = xx
         while self.T >= self.Tf:
             for i in range(self.it):
                 #print('-----------------ITERAÇÃO------------------')
                 Y = copy.deepcopy(self.SOL)
-                rd = np.random.randint(1, 5)
-
+                #rd = np.random.randint(1, 5)
+                op=[1,2,3,4]
+                pesos=[0.2,0.2,0.2,0.2]
+                pesos[n]+=0.2
+                rd=random.choices(op,weights=pesos)[0]
                 if rd == 1:
                     self.N1(Y)
                 elif rd == 2:
@@ -249,7 +275,7 @@ class SA():
                 elif rd == 4:
                     self.N4(Y)
 
-                yy, ordy = self.SA2(Y, ord)
+                yy, ordy, n = self.SA2(Y, ord)
                 delta = yy - xx
                 if delta <= 0 or np.random.rand() < math.exp(-delta / self.T):
                     self.SOL, xx, ord = Y, yy, ordy
@@ -294,7 +320,7 @@ class SA():
         start_time = time.time()
         tamam = len(ord)
         alpha = 0.90
-        it = 1000
+        it = 50
         Tf = 1
         T0 = 5
         T = T0
@@ -357,13 +383,15 @@ class SA():
                 self.dict_Q[arms]=dict_t
         
             T *= alpha
-        
+        operadores=[n1,n2,n3,n4]
+        n_value=max(operadores)
+        n=operadores.index(n_value)
         end_time = time.time()
         time_seq = end_time - start_time
         print(f"Tempo de execução SA2: {time_seq:.4f} segundos")
         print("-Custo solução SA2:", xxb)
         
-        return xxb, xb
+        return xxb, xb,n
    
     def N_1(self,order):
 

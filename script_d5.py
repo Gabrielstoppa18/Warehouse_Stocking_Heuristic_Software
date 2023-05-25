@@ -1,8 +1,8 @@
-import resolvedor
+import resolvedor4
 import numpy as np
 import time
 
-alg= resolvedor.SA()
+alg= resolvedor4.SA()
 
 it=1
 tempot = 0
@@ -24,7 +24,7 @@ arquivo = open('instancias_d5_resolvedor4.txt','a')
 caminho = 'Instancias'
 file = '/instances_d5_ord'
 inst = []
-for k in range(5,31):
+for k in range(5,16):
     
     inst.append(caminho+file+str(k)+'.txt')
 for i in range(len(inst)):
