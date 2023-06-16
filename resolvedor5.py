@@ -72,7 +72,7 @@ class SA():
     def solInicial(self):
         #self.clear()
       
-        self.SOL = [0] * self.arm.totalpro
+        #self.SOL = [0] * self.arm.totalpro
         self.order = []
         self.pos_ordem = []
         self.sclose = []
@@ -86,17 +86,19 @@ class SA():
     
         self.randomid1 = [(j+1,k+1) for j in range(len(self.arm.loc)) for k in range(len(self.arm.loc[j]))]
         np.random.shuffle(self.randomid1)
-    
-        for i in range(1, self.arm.numProdVertices+1):
-            self.close.append((self.arm.dist[0][i], i))
-        self.sclose = sorted(self.close, key=lambda x: x[0])
+        for i in range(self.arm.totalpro):
+            self.SOL.append(self.randomid1[i])
         
-        self.n_close = [(b, j) for i in range(len(self.sclose))
-                       for b in (self.sclose[i][1],)
-                       for j in range(1, 7)]
+        # for i in range(1, self.arm.numProdVertices+1):
+        #     self.close.append((self.arm.dist[0][i], i))
+        # self.sclose = sorted(self.close, key=lambda x: x[0])
+        
+        # self.n_close = [(b, j) for i in range(len(self.sclose))
+        #                for b in (self.sclose[i][1],)
+        #                for j in range(1, 7)]
             
-        for i, (a,b) in enumerate(self.prod_score):
-            self.SOL[a-1] = self.n_close[i]
+        # for i, (a,b) in enumerate(self.prod_score):
+        #     self.SOL[a-1] = self.n_close[i]
     
         num_cestas = 8
         capacidade_cesta = 10
@@ -117,12 +119,19 @@ class SA():
             produto, quantidade = ordem
             if quantidade < self.car.capcesta:
                 return produto
+    def objetivo(self, SOL, ordem):
+        #order: (produto,ordem)
+        #SOL: {Produto: (nó,prateleira)}s
+        objt = 0.0
+        
 
     def objetivo2(self, SOL, ordem):
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
-
+        
         order = [(i-1, j, e) for i, j, e in ordem]
+        print('Order: ',order)
+        print("Warehouse: ",SOL)
         # Clearing self.pos_ordem using the * operator
         self.pos_ordem = [[] for _ in range(len(self.pos_ordem))] 
         objt = 0.0
@@ -258,41 +267,41 @@ class SA():
         self.xxb = valor
     
         self.T = self.T0
-        xx, ord, n= self.SA2(self.SOL, self.order)
-        self.xxb = xx
-        while self.T >= self.Tf:
-            for i in range(self.it):
-                #print('-----------------ITERAÇÃO------------------')
-                Y = copy.deepcopy(self.SOL)
-                #rd = np.random.randint(1, 5)
-                op=[1,2,3,4]
-                pesos=[0.2,0.2,0.2,0.2]
-                pesos[n]+=0.2
-                rd=random.choices(op,weights=pesos)[0]
-                if rd == 1:
-                    self.N1(Y)
-                elif rd == 2:
-                    self.N2(Y)
-                elif rd == 3:
-                    self.N3(Y)
-                elif rd == 4:
-                    self.N4(Y)
+        #xx, ord, n= self.SA2(self.SOL, self.order)
+        self.xxb = 0#xx
+        # while self.T >= self.Tf:
+        #     for i in range(self.it):
+        #         #print('-----------------ITERAÇÃO------------------')
+        #         Y = copy.deepcopy(self.SOL)
+        #         #rd = np.random.randint(1, 5)
+        #         op=[1,2,3,4]
+        #         pesos=[0.2,0.2,0.2,0.2]
+        #         pesos[n]+=0.2
+        #         rd=random.choices(op,weights=pesos)[0]
+        #         if rd == 1:
+        #             self.N1(Y)
+        #         elif rd == 2:
+        #             self.N2(Y)
+        #         elif rd == 3:
+        #             self.N3(Y)
+        #         elif rd == 4:
+        #             self.N4(Y)
 
-                yy, ordy, n = self.SA2(Y, ord)
-                delta = yy - xx
-                if delta <= 0 or np.random.rand() < math.exp(-delta / self.T):
-                    self.SOL, xx, ord = Y, yy, ordy
-                if xx < self.xxb:
-                    self.Xb, self.xxb, self.orderB = copy.deepcopy(self.SOL), xx, copy.deepcopy(ord)
+        #         yy, ordy, n = self.SA2(Y, ord)
+        #         delta = yy - xx
+        #         if delta <= 0 or np.random.rand() < math.exp(-delta / self.T):
+        #             self.SOL, xx, ord = Y, yy, ordy
+        #         if xx < self.xxb:
+        #             self.Xb, self.xxb, self.orderB = copy.deepcopy(self.SOL), xx, copy.deepcopy(ord)
     
-            self.T *= self.alpha
-            #print("-Temperatura Atual:",self.T)
+        #     self.T *= self.alpha
+        #     #print("-Temperatura Atual:",self.T)
     
-        print("-Solução Final do Problema:")
-        print("-Custo Total da solução:", self.xxb)
-        end_time = time.time()
-        time_seq = end_time - start_time
-        print(f"Tempo de execucao do SA: {time_seq:.4f} segundos")
+        # print("-Solução Final do Problema:")
+        # print("-Custo Total da solução:", self.xxb)
+        # end_time = time.time()
+        # time_seq = end_time - start_time
+        # print(f"Tempo de execucao do SA: {time_seq:.4f} segundos")
         return self.xxb
     
 

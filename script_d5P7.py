@@ -17,14 +17,14 @@ arq2 = file.read().splitlines()
 file = open(products, 'r')
 arq3 = file.read().splitlines()
 
-arquivo = open('instancias_d5.txt','w')
+arquivo = open('instancias_d5.txt_P7','w')
 arquivo.close()
 
-arquivo = open('instancias_d5.txt','a')
+arquivo = open('instancias_d5_P7.txt','a')
 caminho = 'Instancias'
 file = '/instances_d5_ord'
 inst = []
-for k in range(5,16):
+for k in range(13,14):
     
     inst.append(caminho+file+str(k)+'.txt')
 for i in range(len(inst)):

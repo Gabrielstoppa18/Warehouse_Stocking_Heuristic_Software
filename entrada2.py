@@ -1,11 +1,8 @@
-from tkinter import filedialog
+#from tkinter import filedialog
 import networkx as nx
-import matplotlib.pyplot as plt
-import math
 #import matplotlib.pyplot as plt
-#import sympy as sp
+import math
 import numpy as np
-from tkinter import filedialog
 
 
 
@@ -28,9 +25,10 @@ class Armazem:
         self.nome = ""
         self.loc=[]
         self.dist=[]
+
         self.capcesta=10
         self.numcestas=8
-    
+
     def clear(self):
         self.A = nx.Graph()
         self.numAisles = 0
@@ -50,8 +48,8 @@ class Armazem:
         self.loc=[]
         self.dist=[]
     def leitura(self,arq1,arq2,arq3):
+
         self.clear()
-        self.ordens=[]
         a= arq1[1].split()
         b= arq1[3].split()
         c=arq1[12].split()
@@ -72,7 +70,7 @@ class Armazem:
             posy = int(a[2])
             tupla=[posx,posy]
             self.vertPos.append(tupla)
-        for x in range(1617,1617+2):
+        for x in range(1875,1875+24):
             #1875,1875+24
             a = arq1[x].split()
             posx = int(a[1])
@@ -80,12 +78,12 @@ class Armazem:
             tupla=[posx,posy]
             self.vertPos.append(tupla)
         
-        #a= 1903
-        a= 1623
+        a= 1903
+        #a= 1623
         for i in range(a,a+self.numProdVertices):
             loc0=[]
             k = arq1[i].split()
-            for j in range(2,4):
+            for j in range(2,8):
                 #2,8
                 loc0.append(int(k[j]))
             self.loc.append(loc0)
@@ -94,8 +92,8 @@ class Armazem:
         for i in range(self.totalvertices):
             self.A.add_node(i,pos=(self.vertPos[i][0],self.vertPos[i][1]))
         
-        #a=2194
-        a=1632
+        a=2194
+        #a=1632
         for i in range(a,a+self.totalvertices):
             k = arq1[i].split()
             for j in range(0,int(k[1])+1,2):
@@ -140,24 +138,6 @@ class Armazem:
                 self.ord[i].qtprod.append(int(inf[1+j]))
             
             b+=1
-        #print(self.qtprod, self.ordens)    
-    def imprimir(self):
-        with open('entrada.txt','w')as entrada:
-            entrada.write("Entrada: "+str(self.nex)+" "+ str(self.ney)+" "+ str(self.nez)+"\n")
-            entrada.write("Saida: "+str(self.nsx)+" "+ str(self.nsy)+" "+ str(self.nsz)+"\n")
-            entrada.write("Espacos de alocacao: "+str(self.prt*self.cel)+"\n")
-            entrada.write("Prat: "+str(self.prt)+"\n")
-            entrada.write("Cel: "+str(self.cel)+"\n")
-            for i in range(self.prt):
-                for j in range(self.cel):
-                    entrada.write("ID da celula:"+str(self.pa[i].pra[j].idcel)+ " "+ "X/Y/Z: "+str(self.pa[i].pra[j].xcel)+" "+str(self.pa[i].pra[j].ycel)+" "+str(self.pa[i].pra[j].zcel)+"\n")
-            entrada.write("Total de produtos:"+str(self.totalpro)+"\n")
-            entrada.write("Produtos: \n")
-            for i in range(self.totalpro):
-                entrada.write(str(self.po[i].idprod)+"\n")
-            entrada.write("Total de ordens:"+str(self.totalord)+"\n")
-            for i in range(self.totalord):
-                entrada.write(str(self.ord[i].totprod)+" "+str(self.ord[i].lprod)+"\n")
 
     def openFile(self):
         with open('entrada.txt','w')as entrada:
