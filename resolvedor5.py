@@ -123,7 +123,8 @@ class SA():
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
         objt = 0.0
-        
+        for i in ordem:
+            if 
 
     def objetivo2(self, SOL, ordem):
         #order: (produto,ordem)
