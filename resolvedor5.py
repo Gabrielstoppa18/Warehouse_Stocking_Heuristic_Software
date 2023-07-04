@@ -21,7 +21,7 @@ class Pos():
         self.quantidade = 0       
 class SA():
     def __init__(self):
-        
+        self.T={}
         self.cesta= self.Cesta()
         self.car=self.Carro()
         self.x=0
@@ -35,7 +35,7 @@ class SA():
         self.arm= entrada.Armazem()
 
         num_cestas = 8
-        capacidade_cesta = 10
+        capacidade_cesta = 40
         self.num_tipos=self.arm.totalord
         self.carrinho = self.Carrinho(num_cestas, capacidade_cesta,self.num_tipos)
         self.dict_Q = {}
@@ -55,9 +55,13 @@ class SA():
         def __init__(self, num_cestas, capacidade_cesta,num_tipos):
             self.num_cestas = num_cestas
             self.capacidade_cesta = capacidade_cesta
-            self.cestas = {tipo: [] for tipo in range(0, num_tipos)}
-            self.coletado = {tipo: [] for tipo in range(0, num_tipos)}
-            self.distancia_total = 0
+            self.capacidade_cesta_dinamic = self.capacidade_cesta
+            self.capacidade_total = num_cestas * capacidade_cesta
+            self.capacidade_total_dinamic =self.capacidade_total  
+            self.cestas_at=[]
+            self.cestas ={}
+            #self.coletado = {tipo: [] for tipo in range(0, num_tipos)}
+            
     
     class Carro:
         def __init__(self):
@@ -104,7 +108,16 @@ class SA():
         capacidade_cesta = 10
         self.num_tipos = self.arm.totalord
         self.carrinho = self.Carrinho(num_cestas, capacidade_cesta, self.num_tipos)
-    
+
+        totalprodutos=sum(self.arm.qtprod)
+        qtcarrinhos=math.ceil(totalprodutos/(self.carrinho.capacidade_cesta*self.carrinho.num_cestas))
+
+        print("Quantidade de produtos da ordem: ",self.arm.qtprod)
+        print("Quantidade de carrinhos: ",qtcarrinhos)
+
+        for i in range(qtcarrinhos):
+            self.T[i]= self.carrinho
+
     def organizar(self, order):
         for i, (o, p, u) in enumerate(order):
             for j in range(i+1, len(order)):
@@ -123,15 +136,61 @@ class SA():
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
         objt = 0.0
-        for i in ordem:
-            if 
+        position=0
+        order = [(i-1, j, e) for i, j, e in ordem]
+        print('Ordem: ',ordem)
+        print('Order com indices para listas: ',order)
+        print("Warehouse: ",SOL)
+        for j in range(len(self.T)):
+            for i in range(len(order)):
+                a,b,c=order[i]
+                x,y=SOL[a]
+                if c==-1:
+                    continue
+                else:
+                    if len(self.T[j].cestas_at)== 0:
+                        self.T[j].cestas_at.append(b)
+
+                        self.T[j].capacidade_total_dinamic-=self.arm.qtprod[b]
+                        
+                        self.T[j].cestas[str(b)]=[a+1]
+                        objt+=self.arm.dist[position][x]
+
+                        position=x
+                        order[i]=(a,b,-1)
+                    else:
+                        if b in self.T[j].cestas_at:                         
+                            objt+=self.arm.dist[position][x]
+                            position=x
+                            order[i]=(a,b,-1)
+
+                            self.T[j].cestas[str(b)].append(a+1)
+
+                        else:
+                            if self.T[j].capacidade_total_dinamic-self.arm.qtprod[b]>=0:
+                                self.T[j].cestas_at.append(b)
+                                self.T[j].capacidade_total_dinamic-=self.arm.qtprod[b]
+                                objt+=self.arm.dist[position][x]
+                                position=x
+                                order[i]=(a,b,-1)
+                                self.T[j].cestas[str(b)] = [a+1]
+                            else:
+                                continue
+            print("Carrinho: ",self.T[j].cestas)
+            objt+=self.arm.dist[position][0]
+            position=0
+        return objt
+
+                        
+                        
+
 
     def objetivo2(self, SOL, ordem):
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
         
         order = [(i-1, j, e) for i, j, e in ordem]
-        print('Order: ',order)
+        print('Order: ',ordem)
         print("Warehouse: ",SOL)
         # Clearing self.pos_ordem using the * operator
         self.pos_ordem = [[] for _ in range(len(self.pos_ordem))] 
@@ -258,14 +317,16 @@ class SA():
         self.order = []
         self.pos_ordem = []
         self.solInicial()
-        valor = self.objetivo2(self.SOL, self.order)
+        valor2 = self.objetivo2(self.SOL, self.order)
+        valor1 = self.objetivo(self.SOL, self.order)
         self.organizar(self.order)
     
-        print("Custo inicial:", valor)
+        print("Custo inicial objetivo 1:", valor1)
+        print("Custo inicial objetivo 2:", valor2)
             
         self.Xb = copy.deepcopy(self.SOL)
         self.orderB = copy.deepcopy(self.order)
-        self.xxb = valor
+        self.xxb = valor1
     
         self.T = self.T0
         #xx, ord, n= self.SA2(self.SOL, self.order)

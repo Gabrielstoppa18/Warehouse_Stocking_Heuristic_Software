@@ -128,16 +128,18 @@ class Armazem:
                 print("erro :existe uma ordem que precisa de mais cestas do que o carrinho suporta")
                 exit
             for j in range(0,self.ord[i].totprod*2,2):
+                
                 tupla=[int(inf[1+j]),i,cestas]
                 self.ordens.append(tupla)
                 self.ord[i].lprod.append(int(inf[1+j]))
             
             
-            
+            prod=0
             for j in range(1,self.ord[i].totprod*2+1,2):
-                tupla=(int(inf[1+j]),i,0)
-                self.qtprod.append(tupla)
-                self.ord[i].qtprod.append(int(inf[1+j]))
+                prod+=int(inf[j])
+                #tupla=(int(inf[1+j]),i,0)
+            self.qtprod.append(prod)
+            self.ord[i].qtprod.append(int(inf[1+j]))
             
             b+=1
         #print(self.qtprod, self.ordens)    
