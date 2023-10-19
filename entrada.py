@@ -126,7 +126,7 @@ class Armazem:
             cestas=int(math.ceil(int(inf[0])/self.capcesta))
             if cestas > self.numcestas:
                 print("erro :existe uma ordem que precisa de mais cestas do que o carrinho suporta")
-                exit
+                exit()
             for j in range(0,self.ord[i].totprod*2,2):
                 
                 tupla=[int(inf[1+j]),i,cestas]

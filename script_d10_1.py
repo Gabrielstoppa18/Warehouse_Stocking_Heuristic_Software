@@ -17,12 +17,12 @@ arq2 = file.read().splitlines()
 file = open(products, 'r')
 arq3 = file.read().splitlines()
 
-arquivo = open('instancias_d5.txt','w')
+arquivo = open('instancias_d10_Resolvedor4_1.txt','w')
 arquivo.close()
 
-arquivo = open('instancias_d5.txt','a')
+arquivo = open('instancias_d10_Resolvedor4_1.txt','a')
 caminho = 'Instancias'
-file = '/instances_d5_ord'
+file = '/instances_d10_ord'
 inst = []
 for k in range(5,16):
     

@@ -1,5 +1,5 @@
 from pyparsing import And
-import entrada
+import entrada2 as entrada
 import math
 import numpy as np
 import copy
@@ -224,7 +224,7 @@ class SA():
         #self.iter=10
         #self.Tf = 1.0
         #self.T0 = 5.0
-        self.arm= entrada_o.Armazem()
+        self.arm= entrada.Armazem()
         #self.cel=[]
         self.SOL=[]
         self.Xb=[]
@@ -241,7 +241,7 @@ class SA():
         start_time = time.time()
         self.ml(3)    
         self.alpha = 0.95
-        self.it = 5
+        self.it = 10
         self.Tf = 1
         self.T0 = 10
         self.SOL = []

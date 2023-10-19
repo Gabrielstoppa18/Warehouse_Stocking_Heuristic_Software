@@ -1,5 +1,5 @@
 from pyparsing import And
-import entrada
+import entrada2
 import math
 import numpy as np
 import copy
@@ -32,7 +32,7 @@ class SA():
         #self.iter=10
         #self.Tf = 1.0
         #self.T0 = 5.0
-        self.arm= entrada.Armazem()
+        self.arm= entrada2.Armazem()
 
         num_cestas = 8
         capacidade_cesta = 40
@@ -51,6 +51,7 @@ class SA():
         self.close=[]
         self.sclose=[]
         self.prod_score=[]
+        self.qtcarrinhos=0
     class Carrinho:
         def __init__(self, num_cestas, capacidade_cesta,num_tipos):
             self.num_cestas = num_cestas
@@ -108,15 +109,15 @@ class SA():
         capacidade_cesta = 10
         self.num_tipos = self.arm.totalord
         self.carrinho = self.Carrinho(num_cestas, capacidade_cesta, self.num_tipos)
-
+        #print(self.arm.qtprod)
         totalprodutos=sum(self.arm.qtprod)
-        qtcarrinhos=math.ceil(totalprodutos/(self.carrinho.capacidade_cesta*self.carrinho.num_cestas))
+        self.qtcarrinhos=math.ceil(totalprodutos/(self.carrinho.capacidade_cesta*self.carrinho.num_cestas))
 
         print("Quantidade de produtos da ordem: ",self.arm.qtprod)
-        print("Quantidade de carrinhos: ",qtcarrinhos)
+        print("Quantidade de carrinhos: ",self.qtcarrinhos)
 
-        for i in range(qtcarrinhos):
-            self.T[i]= self.carrinho
+        # for i in range(self.qtcarrinhos):
+        #     self.T[i]= self.carrinho
 
     def organizar(self, order):
         for i, (o, p, u) in enumerate(order):
@@ -132,20 +133,64 @@ class SA():
             produto, quantidade = ordem
             if quantidade < self.car.capcesta:
                 return produto
+    
+    def objetivo3(self, SOL, ordem):
+        #order: (produto,ordem)
+        #SOL: {Produto: (nó,prateleira)}s
+        objt = 0.0
+        position=0
+         # Ordenar a lista de acordo com a ordem do produto
+        ordem_de_coleta = [(i-1, j, e) for i, j, e in ordem]
+        ordem_de_coleta.sort(key=lambda x: x[1])
+        
+        carrinhos = [[] for _ in range(self.qtcarrinhos)]  # Inicialização dos carrinhos vazios
+        cesta_capacidade = 10
+        cestas_por_carrinho = 8
+        produtos_por_cesta = []  # Lista para controlar a quantidade de produtos em cada cesta
+        
+        for order in ordem_de_coleta:
+            id_produto, ordem_produto, qtd_cestas = order
+            node, shelf = SOL[id_produto]
+            
+            # Verificar se há espaço na cesta atual do carrinho da ordem
+            carrinho_atual = ordem_produto % 3
+            cesta_atual = len(produtos_por_cesta) % cestas_por_carrinho
+            
+            if cesta_atual >= cestas_por_carrinho:
+                carrinho_atual = (carrinho_atual + 1) % 3
+                cesta_atual = 0
+            
+            # Verificar se é necessário começar uma nova cesta no carrinho atual
+            if produtos_por_cesta and (produtos_por_cesta[-1] % cesta_capacidade) + qtd_cestas * cesta_capacidade > cesta_capacidade:
+                cesta_atual = (cesta_atual + 1) % cestas_por_carrinho
+            
+            produtos_por_cesta.extend([qtd_cestas * cesta_capacidade] * cesta_capacidade)
+            
+            # Adicionar o produto ao carrinho e à cesta correspondente
+            carrinhos[carrinho_atual].append(id_produto)
+            objt+=self.arm.dist[position][node]
+            position=node
+        objt+=self.arm.dist[position][0]
+        return objt
+
     def objetivo(self, SOL, ordem):
         #order: (produto,ordem)
         #SOL: {Produto: (nó,prateleira)}s
         objt = 0.0
         position=0
         order = [(i-1, j, e) for i, j, e in ordem]
-        print('Ordem: ',ordem)
+        #print('Ordem: ',ordem)
         print('Order com indices para listas: ',order)
-        print("Warehouse: ",SOL)
+        #print("Warehouse: ",SOL)
         for j in range(len(self.T)):
             for i in range(len(order)):
+                print("Order iter:",i,"Order:",order)
+                # print("\n")
                 a,b,c=order[i]
+                #print(b)
                 x,y=SOL[a]
                 if c==-1:
+                    print(i)
                     continue
                 else:
                     if len(self.T[j].cestas_at)== 0:
@@ -179,6 +224,9 @@ class SA():
             print("Carrinho: ",self.T[j].cestas)
             objt+=self.arm.dist[position][0]
             position=0
+        print(self.T[0].cestas)
+        print(self.T[1].cestas)
+        print(self.T[2].cestas)
         return objt
 
                         
@@ -190,8 +238,8 @@ class SA():
         #SOL: {Produto: (nó,prateleira)}s
         
         order = [(i-1, j, e) for i, j, e in ordem]
-        print('Order: ',ordem)
-        print("Warehouse: ",SOL)
+        #print('Order: ',ordem)
+        #print("Warehouse: ",SOL)
         # Clearing self.pos_ordem using the * operator
         self.pos_ordem = [[] for _ in range(len(self.pos_ordem))] 
         objt = 0.0
@@ -283,7 +331,8 @@ class SA():
         #print('Produtos mais vendidos:', y_novo)
   
     def clear(self):
-        self.cestas= self.Cesta()
+        self.T={}
+        self.cesta= self.Cesta()
         self.car=self.Carro()
         self.x=0
         self.y=0
@@ -293,7 +342,12 @@ class SA():
         #self.iter=10
         #self.Tf = 1.0
         #self.T0 = 5.0
-        self.arm= entrada_o.Armazem()
+        self.arm= entrada2.Armazem()
+        num_cestas = 8
+        capacidade_cesta = 40
+        self.num_tipos=self.arm.totalord
+        self.carrinho = self.Carrinho(num_cestas, capacidade_cesta,self.num_tipos)
+        self.dict_Q = {}
         #self.cel=[]
         self.SOL=[]
         self.Xb=[]
@@ -306,11 +360,12 @@ class SA():
         self.close=[]
         self.sclose=[]
         self.prod_score=[]
+        self.qtcarrinhos=0
     def sa(self):
         start_time = time.time()
         self.ml(3)    
         self.alpha = 0.95
-        self.it = 5
+        self.it = 10
         self.Tf = 1
         self.T0 = 10
         self.SOL = []
@@ -318,7 +373,7 @@ class SA():
         self.pos_ordem = []
         self.solInicial()
         valor2 = self.objetivo2(self.SOL, self.order)
-        valor1 = self.objetivo(self.SOL, self.order)
+        valor1 = self.objetivo3(self.SOL, self.order)
         self.organizar(self.order)
     
         print("Custo inicial objetivo 1:", valor1)
@@ -326,44 +381,44 @@ class SA():
             
         self.Xb = copy.deepcopy(self.SOL)
         self.orderB = copy.deepcopy(self.order)
-        self.xxb = valor1
+        self.xxb = valor2
     
         self.T = self.T0
-        #xx, ord, n= self.SA2(self.SOL, self.order)
-        self.xxb = 0#xx
-        # while self.T >= self.Tf:
-        #     for i in range(self.it):
-        #         #print('-----------------ITERAÇÃO------------------')
-        #         Y = copy.deepcopy(self.SOL)
-        #         #rd = np.random.randint(1, 5)
-        #         op=[1,2,3,4]
-        #         pesos=[0.2,0.2,0.2,0.2]
-        #         pesos[n]+=0.2
-        #         rd=random.choices(op,weights=pesos)[0]
-        #         if rd == 1:
-        #             self.N1(Y)
-        #         elif rd == 2:
-        #             self.N2(Y)
-        #         elif rd == 3:
-        #             self.N3(Y)
-        #         elif rd == 4:
-        #             self.N4(Y)
+        xx, ord, n= self.SA2(self.SOL, self.order)
+        self.xxb = xx
+        while self.T >= self.Tf:
+            for i in range(self.it):
+                #print('-----------------ITERAÇÃO------------------')
+                Y = copy.deepcopy(self.SOL)
+                #rd = np.random.randint(1, 5)
+                op=[1,2,3,4]
+                pesos=[0.2,0.2,0.2,0.2]
+                pesos[n]+=0.2
+                rd=random.choices(op,weights=pesos)[0]
+                if rd == 1:
+                    self.N1(Y)
+                elif rd == 2:
+                    self.N2(Y)
+                elif rd == 3:
+                    self.N3(Y)
+                elif rd == 4:
+                    self.N4(Y)
 
-        #         yy, ordy, n = self.SA2(Y, ord)
-        #         delta = yy - xx
-        #         if delta <= 0 or np.random.rand() < math.exp(-delta / self.T):
-        #             self.SOL, xx, ord = Y, yy, ordy
-        #         if xx < self.xxb:
-        #             self.Xb, self.xxb, self.orderB = copy.deepcopy(self.SOL), xx, copy.deepcopy(ord)
+                yy, ordy, n = self.SA2(Y, ord)
+                delta = yy - xx
+                if delta <= 0 or np.random.rand() < math.exp(-delta / self.T):
+                    self.SOL, xx, ord = Y, yy, ordy
+                if xx < self.xxb:
+                    self.Xb, self.xxb, self.orderB = copy.deepcopy(self.SOL), xx, copy.deepcopy(ord)
     
-        #     self.T *= self.alpha
-        #     #print("-Temperatura Atual:",self.T)
+            self.T *= self.alpha
+            #print("-Temperatura Atual:",self.T)
     
-        # print("-Solução Final do Problema:")
-        # print("-Custo Total da solução:", self.xxb)
-        # end_time = time.time()
-        # time_seq = end_time - start_time
-        # print(f"Tempo de execucao do SA: {time_seq:.4f} segundos")
+        print("-Solução Final do Problema:")
+        print("-Custo Total da solução:", self.xxb)
+        end_time = time.time()
+        time_seq = end_time - start_time
+        print(f"Tempo de execucao do SA: {time_seq:.4f} segundos")
         return self.xxb
     
 

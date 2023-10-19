@@ -46,7 +46,9 @@ class Armazem:
         self.ord=[Ordem()]
         self.nome = ""
         self.loc=[]
-        self.dist=[]
+
+        self.capcesta=10
+        self.numcestas=8
     def leitura(self,arq1,arq2,arq3):
 
         self.clear()
@@ -124,7 +126,7 @@ class Armazem:
             cestas=int(math.ceil(int(inf[0])/self.capcesta))
             if cestas > self.numcestas:
                 print("erro :existe uma ordem que precisa de mais cestas do que o carrinho suporta")
-                exit
+                exit()
             for j in range(0,self.ord[i].totprod*2,2):
                 tupla=[int(inf[1+j]),i,cestas]
                 self.ordens.append(tupla)
@@ -132,10 +134,12 @@ class Armazem:
             
             
             
-            for j in range(1,self.ord[i].totprod*2+1,2):
-                tupla=(int(inf[1+j]),i,0)
-                self.qtprod.append(tupla)
-                self.ord[i].qtprod.append(int(inf[1+j]))
+            prod=0
+            for j in range(2,self.ord[i].totprod*2+2,2):
+                prod+=int(inf[j])
+                #tupla=(int(inf[1+j]),i,0)
+            self.qtprod.append(prod)
+            #self.ord[i].qtprod.append(int(inf[1+j]))
             
             b+=1
 
